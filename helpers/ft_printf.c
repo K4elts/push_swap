@@ -3,14 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliao-tr <aliao-tr@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/15 16:20:33 by aliao-tr          #+#    #+#             */
-/*   Updated: 2026/06/19 13:27:51 by aliao-tr         ###   ########.fr       */
+/*   Created: 2026/06/24 19:09:22 by jgilaber          #+#    #+#             */
+/*   Updated: 2026/07/07 18:38:49 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+int	ft_printchar(char c)
+{
+	return (write(1, &c, 1));
+}
+
+int	ft_printstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (s == NULL)
+		s = "(null)";
+	while (s[i] != '\0')
+	{
+		write(1, &s[i], fd);
+		i++;
+	}
+	return (i);
+}
 
 static int	check_format(char format, va_list args)
 {
@@ -34,27 +54,25 @@ static int	check_format(char format, va_list args)
 int	ft_printf(char const *format, ...)
 {
 	va_list	args;
-	int		i;
-	int		printed;
+	int		printf_length;
 
 	if (format == NULL)
 		return (-1);
-	i = 0;
-	printed = 0;
+	printf_length = 0;
 	va_start(args, format);
-	while (format[i] != '\0')
+	while (*format)
 	{
-		if (format[i] == '%' && format[i + 1] == '\0')
+		if (*format == '%' && !*format)
 			return (-1);
-		else if (format[i] == '%')
+		else if (*format == '%')
 		{
-			i++;
-			printed += check_format(format[i], args);
+			format++;
+			printf_length += check_format(*format, args);
 		}
 		else
-			printed += write(1, &format[i], 1);
-		i++;
+			printf_length += write(1, format, 1);
+		format++;
 	}
 	va_end(args);
-	return (printed);
+	return (printf_length);
 }

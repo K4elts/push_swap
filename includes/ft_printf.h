@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliao-tr <aliao-tr@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/11 14:35:47 by aliao-tr          #+#    #+#             */
-/*   Updated: 2026/06/19 13:08:55 by aliao-tr         ###   ########.fr       */
+/*   Created: 2026/06/01 21:40:06 by jgilaber          #+#    #+#             */
+/*   Updated: 2026/07/07 18:34:33 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-
-# include <unistd.h>
 # include <stdio.h>
+# include <unistd.h>
 # include <stdarg.h>
 
 int	ft_printf(char const *format, ...);

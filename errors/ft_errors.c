@@ -1,24 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printpointer.c                                  :+:      :+:    :+:   */
+/*   ft_errors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliao-tr <aliao-tr@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/06/19 11:22:28 by aliao-tr          #+#    #+#             */
-/*   Updated: 2026/06/19 12:03:41 by aliao-tr         ###   ########.fr       */
+/*   Created: 2026/07/11 22:43:30 by jgilaber          #+#    #+#             */
+/*   Updated: 2026/07/11 22:43:31 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-int	ft_printpointer(void *ptr)
-{
-	int	count;
-
-	if (!ptr)
-		return (ft_printstr_fd("(nil)", 1));
-	count = ft_printstr_fd("0x", 1);
-	count += ft_printhex((unsigned long)ptr, 'p');
-	return (count);
-}
