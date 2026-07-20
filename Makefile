@@ -1,33 +1,39 @@
-PUSH_SWAP_LIB_NAME	:= push_swap.a
-PUSH_SWAP_LIB_DIRS	:= . bench errors helpers utils
-PUSH_SWAP_LIB_SRCS	:= $(foreach dir,$(PUSH_SWAP_LIB_DIRS),$(wildcard $(dir)/*.c))
-OBJ_DIR := build
-PUSH_SWAP_LIB_OBJS := $(addprefix $(OBJ_DIR)/,$(PUSH_SWAP_LIB_SRCS:.c=.o))
+LIB_NAME			:= push_swap.a
+LIB_DIRS			:= . bench disorder errors helpers stack strategies utils
+LIB_SRCS			:= $(foreach dir,$(LIB_DIRS),$(wildcard $(dir)/*.c))
+LIB_OBJS_DIR		:= build
+LIB_OBJS_FILES		:= $(addprefix $(LIB_OBJS_DIR)/,$(LIB_SRCS:.c=.o))
 CC					:= cc
 CFLAGS				:= # -Wall -Wextra -Werror
-CINCLUDES			:= -I ./includes
-CMD_AR_RCS_FLAG 	:= ar rcs
-CMD_RM_F_FLAG		:= rm -f
+CINCLUDES			:= -I ./lib
+CMD_RM_FLAGS		:= rm -rf
+CMD_AR_FLAGS		:= ar rcs
 
-
-$(OBJ_DIR)/%.o: %.c
+$(LIB_OBJS_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@echo "Compiling -> $< ..."
 	@$(CC) $(CFLAGS) $(CINCLUDES) -c $< -o $@
 
-$(PUSH_SWAP_LIB_NAME): $(PUSH_SWAP_LIB_OBJS)
-	@echo "Executing command -> ar rcs $(PUSH_SWAP_LIB_NAME) $(PUSH_SWAP_LIB_OBJS)"
-	@$(CMD_AR_RCS_FLAG) $(PUSH_SWAP_LIB_NAME) $(PUSH_SWAP_LIB_OBJS)
+$(LIB_NAME): $(LIB_OBJS_FILES)
+	@echo "Executing command -> ar rcs $(LIB_NAME) $(LIB_OBJS_FILES)"
+	@$(CMD_AR_FLAGS) $(LIB_NAME) $(LIB_OBJS_FILES)
+	@echo ""
 
-all: $(PUSH_SWAP_LIB_NAME)
+all: $(LIB_NAME)
 
 clean:
-	@echo "Doing Clean ..."
-	@$(CMD_RM_F_FLAG) $(PUSH_SWAP_LIB_OBJS)
+	@echo "Cleaning ..."
+	@if [ -n "$$(find $(LIB_OBJS_DIR) -mindepth 1 -print -quit 2>/dev/null)" ]; then \
+		echo "Removing -> $(CMD_RM_FLAGS) $(LIB_OBJS_DIR)/* ..."; \
+		$(CMD_RM_FLAGS) $(LIB_OBJS_DIR)/*; \
+	fi
+	@echo ""
 
 fclean: clean
-	@echo "Doing fclean ..."
-	@$(CMD_RM_F_FLAG) $(PUSH_SWAP_LIB_NAME) $(PUSH_SWAP_LIB_OBJS)
+	@echo "Full Cleaning ..."
+	@echo "Removing -> $(CMD_RM_FLAGS) $(LIB_NAME) ..."
+	@$(CMD_RM_FLAGS) $(LIB_NAME)
+	@echo ""
 
 re: fclean all
 
