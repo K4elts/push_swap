@@ -1,13 +1,13 @@
-LIB_NAME			:= push_swap.a
-LIB_DIRS			:= . bench disorder errors helpers stack strategies utils
-LIB_SRCS			:= $(foreach dir,$(LIB_DIRS),$(wildcard $(dir)/*.c))
-LIB_OBJS_DIR		:= build
-LIB_OBJS_FILES		:= $(addprefix $(LIB_OBJS_DIR)/,$(LIB_SRCS:.c=.o))
-CC					:= cc
-CFLAGS				:= # -Wall -Wextra -Werror
-CINCLUDES			:= -I ./lib
-CMD_RM_FLAGS		:= rm -rf
-CMD_AR_FLAGS		:= ar rcs
+LIB_NAME		:= push_swap.a
+LIB_SRCS_DIRS	:= . bench core errors helpers stack utils
+LIB_SRCS_FILES	:= $(foreach dir,$(LIB_SRCS_DIRS),$(wildcard $(dir)/*.c))
+LIB_OBJS_DIR	:= build
+LIB_OBJS_FILES	:= $(addprefix $(LIB_OBJS_DIR)/,$(LIB_SRCS_FILES:.c=.o))
+CC				:= cc
+CFLAGS			:= # -Wall -Wextra -Werror
+CINCLUDES		:= -I ./lib
+CMD_RM_FLAGS	:= rm -rf
+CMD_AR_FLAGS	:= ar rcs0
 
 $(LIB_OBJS_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)

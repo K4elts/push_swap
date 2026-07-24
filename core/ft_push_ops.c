@@ -6,7 +6,7 @@
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 17:11:07 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/17 18:54:42 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/22 19:55:14 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 /// @brief Function that take the first element of stack_b
 /// and push it to the top of stack_a.
+/// @authors jgilaber & aliao-tr
 /// @param a stack_a
 /// @param b stack_b
 /// @param operations_count Int-Array that contains
@@ -44,6 +45,7 @@ void	pa(t_stack **a, t_stack **b, int *operations_count)
 
 /// @brief Function that take the first element of stack_a
 /// and push it to the top of stack_b.
+/// @authors jgilaber & aliao-tr
 /// @param a stack_a
 /// @param b stack_b
 /// @param operations_count Int-Array that contains

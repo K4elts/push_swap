@@ -33,6 +33,7 @@ typedef enum e_operations
 	OP_TOTAL
 }	t_operations;
 
+// ESTO PUEDE SER USADO EN fT_do_op(), para eso habria que limpiar la linea leida para quitar '\n' de la operacion leida -> "pa\n"
 typedef struct s_push_swap_operations
 {
 	void	(*pa)(t_stack **a, t_stack **b, int *operations_count);

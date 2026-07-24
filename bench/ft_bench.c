@@ -6,7 +6,7 @@
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/11 22:43:25 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/16 20:44:32 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/22 19:52:25 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	ft_show_strategy(t_stack **s)
 }
 
 /// @brief Funcion que muestra el numero total de operaciones realizadas.
-/// de operaciones realizadas escritas en un fichero en /tmp/*
 /// @param ops_count Array de enteros con el numero de operaciones de cada tipo.
 void	ft_show_total_operations_count(int *ops_count)
 {
@@ -92,6 +91,8 @@ void	ft_show_total_operation_type_count(int *ops_count)
 }
 
 /// @brief Function that shows on stderr the benchmark
+// La salida del modo benchmark debe enviarse a la salida stderr y solo se mostrará cuando la flag esté presente
+/// @authors jgilabert & aliao-tr
 /// @param s Puntero a un stack(t_stack)
 void	ft_show_benchmark(t_stack **s, int *ops_count)
 {

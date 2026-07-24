@@ -5,13 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/13 20:09:00 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/13 20:17:32 by jgilaber         ###   ########.fr       */
+/*   Created: 2026/07/10 20:09:00 by aliao-tr          #+#    #+#             */
+/*   Updated: 2026/07/22 19:57:19 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+/// @brief Function that compute the disorder of the recived stack.
+/// @authors jgilaber & aliao-tr
+/// @param s stack_s
+/// @return float The disorder computed
 float	ft_compute_disorder(t_stack **s)
 {
 	size_t	stack_row;
