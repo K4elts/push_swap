@@ -6,11 +6,135 @@
 /*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 12:12:43 by aliao-tr          #+#    #+#             */
-/*   Updated: 2026/07/27 16:10:25 by aliao-tr         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:13:46 by aliao-tr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	exit_program(void)
+{
+	write(2, "Error\n", 6);
+	exit(1);
+}
+
+int	check_duplicates(int *numbers, int size)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < size)
+	{
+		j = i = 1;
+		while (j < size)
+		{
+			if (numbers[i] == numbers[j])
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	check_flags(int *flags)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (i < 4)
+	{
+		if (flags[i] > 0)
+			count++;
+		i++;
+	}
+	return (count > 1);
+}
+
+void	free_all(char **str, int *numbers)
+{
+	if (str)
+		free_split(str);
+	if (numbers)
+		free(numbers);
+}
+
+int	is_valid(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	if (str[i] == '\0')
+		return (0);
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	save_number(char *str, int *numbers, int size, char **split_str)
+{
+	long	nbr;
+
+	if (!is_valid(str))
+		free_all(split_str, numbers);
+}
+
+int	check_flag_type(char *str)
+{
+	if (ft_strcmp(str, "--simple"))
+		return (0);
+	if (ft_strcmp(str, "--medium"))
+		return (1);
+	if (ft_strcmp(str, "--complex"))
+		return (2);
+	if (ft_strcmp(str, "--adaptive"))
+		return (3);
+	return (-1);
+}
+
+void	check_nbr_or_flag(char **str, int *flags, int *numbers, int *size)
+{
+	int	i;
+	int	type;
+
+	i = 0;
+	while (!str[i])
+	{
+		type = check_flag_type(str[i]);
+		if (type != -1)
+			flags[type]++;
+		else
+			save_number(str[i], numbers, size, str);
+		i++;
+	}
+}
+
+int	parse_args(int argc, char **argv, int *flags, int *numbers)
+{
+	char	**str;
+	int		i;
+	int		size;
+
+	i = 1;
+	size = 0;
+	while (i < argc)
+	{
+		str = ft_split(argv[i], ' ');
+		check_nbr_or_flag(str, flags, numbers, &size);
+		free_ft_split(str);
+		i++;
+	}
+	return (size);
+}
 
 void	init_flags(int *flags)
 {
@@ -29,12 +153,22 @@ int	main(int argc, char **argv)
 	t_stack	**stack_a;
 	t_stack	**stack_b;
 	int		*numbers;
-	int		flags[5];
+	int		flags[4];
 	int		size;
 
 	if (argc < 2)
 		return (0);
 	init_flags(flags);
+	numbers = malloc(sizeof(int) * INT_MAX);
+	if (!numbers)
+		return (1);
+	size = parse_args(argc, argv, flags, numbers);
+	if (check_flags(flags) || check_duplicates(numbers, size))
+	{
+		free(numbers);
+		exit_program();
+	}
+	ft_new_stack(numbers /*pasar el numero de la estrategia a usar*/);
 	return (0);
 }
 
