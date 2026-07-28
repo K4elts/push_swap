@@ -6,21 +6,22 @@
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/11 22:43:30 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/15 21:40:00 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/27 19:32:10 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "libft.h"
 
 // UN POSIBLE ERROR ES UNA OPERACION INCORRECTA INTRODUCIDA EN ft_do_op()
 
 /// @brief Muestra un mensaje de error en la salida de error.
 /// @param exit_code Exit code
 /// @return void Nothing
-void ft_putstr_error(int exit_code)
+void	ft_putstr_error(int exit_code)
 {
-    write(2, "Error\n", 6);
-    exit(exit_code);
+	write(2, "Error\n", 6);
+	exit(exit_code);
 }
 
 /*
@@ -31,7 +32,7 @@ enteros, argumentos superiores a un número entero, y/o números duplicados.
 /// @brief Devuelve 1 si al menos 1 elemento no es nu numero.
 /// @param array Array de enteros con 
 /// @return int Devuelve 1 si al menos 1 elemento no es nu numero.
-int ft_check_if_argv_has_only_int_numbers(char *array)
+int	ft_check_if_argv_has_only_int_numbers(int *array)
 {
 	int	array_index;
 
@@ -45,8 +46,9 @@ int ft_check_if_argv_has_only_int_numbers(char *array)
 	return (0);
 }
 
-// Devuelve 1 si hay elementos duplicados, ya sean numeros o signos. (Sujeto a cambios/correcciones)
-int	ft_check_if_argv_has_duplicated_values(char *array)
+/// @brief Devuelve 1 si hay elementos duplicados, ya sean numeros o signos.
+///
+int	ft_check_if_argv_has_duplicated_values(int *array)
 {
 	int	array_index;
 	int	array_index2;

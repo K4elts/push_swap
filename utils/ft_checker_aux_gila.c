@@ -1,6 +1,14 @@
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_checker_aux_gila.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/24 18:29:11 by jgilaber          #+#    #+#             */
+/*   Updated: 2026/07/24 18:29:11 by jgilaber         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 /*
 static int	ft_do_op(t_stack **a, t_stack **b, char *operation, int *ops_count)
@@ -72,4 +80,58 @@ int	main(int argc, char **argv)
 	}
 	ft_push_swap(nbr_list);
 	return (0);
+}
+
+
+void	ft_exec_strat_dispatch_with_ops_create(t_stack **a, t_stack **b, int *ops_count)
+{
+	t_strategy_type			strategy_used;
+	t_push_swap_ops_data	operations_data;
+
+	if (!(*a)->top || !(*b)->top)
+		return ;
+	operations_data.a = a;
+	operations_data.b = b;
+	operations_data.operations_count = ops_count;
+	strategy_used = (*a)->strategy_used;
+	if (strategy_used == STRAT_SIMPLE)
+		ft_do_simple_strategy(&operations_data);
+	else if (strategy_used == STRAT_MEDIUM)
+		ft_do_medium_strategy(&operations_data);
+	else if (strategy_used == STRAT_COMPLEX)
+		ft_do_complex_strategy(&operations_data);
+	else
+		ft_do_adaptative_strategy(&operations_data);
+}
+
+
+/// @deprecated - procedente de ft_do_medium_strategy()
+int	ft_get_sqrt(int nb)
+{
+	int	i;
+
+	if (nb < 0)
+		return (0);
+	if (nb == 0 || nb == 1)
+		return (nb);
+	i = 1;
+	while (i <= nb / i)
+	{
+		if (i * i == nb)
+			return (i);
+		i++;
+	}
+	return (0);
+}
+/// @deprecated - procedente de ft_do_medium_strategy()
+int	ft_get_sqrt_exacto(int nb)
+{
+	int	i;
+
+	if (nb < 0)
+		return (0);
+	i = 0;
+	while ((i + 1) <= nb / (i + 1))
+		i++;
+	return (i);
 }

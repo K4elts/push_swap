@@ -12,21 +12,32 @@
 
 #include "stacklib.h"
 
-/// @brief Function that update all stack_node index
+/// @brief Function that removes a node from a stack.
 /// @authors jgilaber & aliao-tr
-/// @param s stack_s
+/// @param stack_node The stack node to remove.
 /// @return Nothing
-void	ft_stack_update_index(t_stack **s)
+void	ft_stack_remove_node(t_stack_node *stack_node)
 {
-	size_t	index;
-
-	if (!s)
+	if (!stack_node)
 		return ;
-	index = 0;
-	while ((*s)->top)
+	free(stack_node);
+}
+
+/// @brief Function that removes all nodes from a stack.
+/// @authors jgilaber & aliao-tr
+/// @param stack The stack to remove the node from.
+/// @return Nothing
+void	ft_stack_clear(t_stack **stack)
+{
+	t_stack_node	*tmp_stack_node;
+
+	if (!stack)
+		return ;
+	while (*stack != NULL)
 	{
-		(*s)->top->index = index++;
-		(*s)->top = (*s)->top->next;
+		tmp_stack_node = (*stack)->top->next;
+		free((*stack)->top);
+		(*stack)->top = tmp_stack_node;
 	}
 }
 
@@ -59,7 +70,7 @@ int	ft_get_min_stack_node_index(t_stack **stack)
 /// @param min Lowest number on the stack
 /// @return Position on the stack of the lowest number
 /// SUJETO A REVISION POR ANDRES.
-int	ft_get_min_stack_node_position(t_stack **stack, int min_stack_node_index)
+int	ft_get_min_stack_node_pos(t_stack **stack, int min_stack_node_index)
 {
 	t_stack_node	*temp_stack;
 	int				pos;
@@ -76,4 +87,31 @@ int	ft_get_min_stack_node_position(t_stack **stack, int min_stack_node_index)
 		temp_stack = temp_stack->next;
 	}
 	return (-1);
+}
+
+/// @brief Function that ¿?
+/// @param b stack_b
+/// @return int The psoition of ¿?
+int	ft_get_max_stack_node_pos(t_stack *b)
+{
+	int				max;
+	int				pos;
+	int				i;
+	t_stack_node	*tmp;
+
+	i = 0;
+	pos = 0;
+	max = -1;
+	tmp = b->top;
+	while (tmp)
+	{
+		if (tmp->index > max)
+		{
+			max = tmp->index;
+			pos = i;
+		}
+		tmp = tmp->next;
+		i++;
+	}
+	return (pos);
 }

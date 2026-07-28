@@ -6,140 +6,98 @@
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 18:49:24 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/23 22:31:53 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/27 19:27:01 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "strategy.h"
-#include "stacklib.h"
 
 /// @brief Function that dispatch the stratergy tu use.
 /// @authors jgilaber & aliao-tr
 /// @param a stack_a
 /// @param b stack_b
-void	ft_exec_strat_dispatch(t_stack **a, t_stack **b, int *ops_count)
+void	ft_exec_strat_dispatch(t_push_swap_ops_data *operations_data)
 {
-	t_strategy	strategy_used;
+	t_strategy_type	strategy_used;
 
-	if (!(*a)->top || !(*b)->top)
+	if (!(*operations_data->a)->top || !(*operations_data->b)->top)
 		return ;
-	strategy_used = (*a)->strategy_used;
+	strategy_used = (*operations_data->a)->strategy_used;
 	if (strategy_used == STRAT_SIMPLE)
-		ft_do_simple_strategy(a, b, ops_count);
+		ft_do_simple_strategy(operations_data);
 	else if (strategy_used == STRAT_MEDIUM)
-		ft_do_medium_strategy(a, b, ops_count);
+		ft_do_medium_strategy(operations_data);
 	else if (strategy_used == STRAT_COMPLEX)
-		ft_do_complex_strategy(a, b, ops_count);
+		ft_do_complex_strategy(operations_data);
 	else
-		ft_do_adaptative_strategy(a, b, ops_count);
+		ft_do_adaptative_strategy(operations_data);
 }
 
 /// @brief Simple sorting method O(n2)
 /// @authors jgilaber & aliao-tr
-/// @param a stack_a
-/// @param b stack_b
+/// @param operations_data
 /// @return Nothing
 /// SUJETO A REVISION POR ANDRES.
-void	ft_do_simple_strategy(t_stack **a, t_stack **b, int *ops_count)
+void	ft_do_simple_strategy(t_push_swap_ops_data *operations_data)
 {
 	int		min;
 	int		pos;
 
-	if (!(*a)->top)
-		return ;
-	while ((*a)->top != NULL)
+	while ((*operations_data->a)->top != NULL)
 	{
-		min = ft_get_min_stack_node_index(a);
-		pos = ft_get_min_stack_node_position(a, min);
-		if (pos <= ((*a)->size / 2))
-			while ((*a)->top->index != min)
-				ra(a, ops_count);
+		min = ft_get_min_stack_node_index(operations_data->a);
+		pos = ft_get_min_stack_node_pos(operations_data->a, min);
+		if (pos <= ((*operations_data->a)->size / 2))
+			while ((*operations_data->a)->top->index != min)
+				ra(operations_data->a, operations_data->operations_count, 1);
 		else
-			while ((*a)->top->index != min)
-				rra(a, ops_count);
-		pb(a, b, ops_count);
+			while ((*operations_data->a)->top->index != min)
+				rra(operations_data->a, operations_data->operations_count, 1);
+		pb(operations_data);
 	}
-	while ((*b)->top)
-		pa(a, b, ops_count);
+	while ((*operations_data->b)->top)
+		pa(operations_data);
 }
 
 /* Algoritmo perteneciente a la clase de complejidad O(n√n).
-    • Orden basado en chunks (dividiendo en √n chunks)
+    • Orden basado en chunks (dividichunk_range_endo en √n chunks)
     • Métodos de partición basados en bloques
     • Adaptaciones del orden por buckets con √n buckets
     • Estrategias de orden basadas en rangos
 
-La idea sería:
-
-Normalizar los números (darles un índice de 0 a n-1).
-Dividir esos índices en aproximadamente √n chunks.
-Mientras procesas un chunk, aceptar cualquier elemento que pertenezca a ese rango, sin buscar uno concreto.
-Al enviarlo a B, colocarlo de forma que facilite recuperarlo después (por ejemplo, decidiendo cuándo conviene hacer una rotación en B).
-
-Esa última parte es donde se gana mucha eficiencia.
-
-
-Aquí está el detalle importante: no suele ser el tamaño de los chunks, sino cómo gestionas la pila B.
-
-Dos personas pueden usar exactamente los mismos chunks.
-
-Una hace:
-	A → B
-	y luego busca siempre el máximo en B.
-
-La otra:
-	mientras envía elementos a B, intenta que los grandes queden más arriba y los pequeños más abajo.
-
-La segunda hará muchas menos rotaciones al reconstruir A.
-
-Ahí es donde se suelen ahorrar decenas o incluso cientos de movimientos.
-
-
-Normalizar los números a índices de 0 a n-1.
-Elegir un número de chunks (una aproximación a √n es un buen punto de partida).
-Procesar un chunk cada vez, buscando cualquier elemento que pertenezca a ese rango.
-Optimizar el envío a B, para que quede parcialmente ordenada.
-Reconstruir A extrayendo de B los elementos en el orden adecuado con el menor número posible de rotaciones.
+normalizar
+chunk_size = sqrt(size)
+para cada chunk:
+    mientras exista un elemento del chunk:
+        si está arriba
+            pb
+            si pertenece a la mitad baja del chunk
+                rb
+        si no
+            ra
+fin
+mientras B no esté vacía:
+    localizar máximo
+    rb o rrb (el camino más corto)
+    pa
+fin
 */
 /// @brief Medium Strategy Sorting Method with O(n√n) complexity.
 /// @authors jgilaber & aliao-tr
 /// @param a stack_a
 /// @param b stack_b
 /// @return Nothing
-void	ft_do_medium_strategy(t_stack **a, t_stack **b, int *ops_count)
+void	ft_do_medium_strategy(t_push_swap_ops_data *operations_data)
 {
-	int chunk_it;
-	int nbr_chunks;
-	t_stack_node	*a_stack_node;
-	t_stack_node	*b_stack_node;
+	int	chunk_size;
 
-	if (!a || !(*a)->top)
-		return ;
-	a_stack_node = (*a)->top;
-	b_stack_node = (*b)->top;
-	chunk_it = 0;
-	//√100 = 10 -> tenemos 10 chunks de 10 elementos cada uno.
-	nbr_chunks = ft_get_sqrt((*a)->size);
-	while (chunk_it < nbr_chunks)
-	{
-		while (a_stack_node != NULL)
-		{
-			if (a_stack_node->index >= (chunk_it * 10) && a_stack_node->index <= (chunk_it * 10) + 9)
-				pb(a, b, ops_count);
-			while (b_stack_node->index)
-			{
-				/* code */
-			}
-			
-		}
-		chunk_it++;
-	}
-	while ((*b)->top)
-		pa(a, b, ops_count);
+	if ((*operations_data->a)->size <= 100)
+		chunk_size = 15;
+	else
+		chunk_size = 30;
+	ft_do_medium_strategy_operations(operations_data, chunk_size);
+	ft_do_medium_strategy_reconstruction(operations_data);
 }
-int ft_check_chunk_range()
-{}
 
 /* Implementa al menos un algoritmo perteneciente
 	a la clase de complejidad O(n log n).
@@ -154,10 +112,9 @@ int ft_check_chunk_range()
 /// @param a stack_a
 /// @param b stack_b
 /// @return Nothing
-void	ft_do_complex_strategy(t_stack **a, t_stack **b, int *ops_count)
+void	ft_do_complex_strategy(t_push_swap_ops_data *operations_data)
 {
-	if (!a || !(*a)->top)
-		return ;
+	
 }
 
 /// @brief Adaptative Strategy Sorting Method with O(n * k) complexity.
@@ -166,12 +123,12 @@ void	ft_do_complex_strategy(t_stack **a, t_stack **b, int *ops_count)
 /// @param a stack_a
 /// @param b stack_b
 /// @return Nothing
-void	ft_do_adaptative_strategy(t_stack **a, t_stack **b, int *ops_count)
+void	ft_do_adaptative_strategy(t_push_swap_ops_data *operations_data)
 {
-	if ((*a)->disorder >= 0.5)
-		ft_do_complex_strategy(a, b, ops_count);
-	if ((*a)->disorder < 0.2)
-		ft_do_simple_strategy(a, b, ops_count);
+	if ((*operations_data->a)->disorder >= 0.5)
+		ft_do_complex_strategy(operations_data);
+	if ((*operations_data->a)->disorder < 0.2)
+		ft_do_simple_strategy(operations_data);
 	else
-		ft_do_medium_strategy(a, b, ops_count);
+		ft_do_medium_strategy(operations_data);
 }

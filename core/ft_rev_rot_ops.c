@@ -6,7 +6,7 @@
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 17:12:12 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/22 19:55:23 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:45:06 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,20 @@
 /// @authors jgilaber & aliao-tr
 /// @param s stack_s
 /// @return Nothing
-static void	ft_do_reverse_rotate_op(t_stack **s)
+static void	ft_do_reverse_rotate_op(t_stack **stack)
 {
 	t_stack_node	*first_stack_node_tmp;
 	t_stack_node	*last_stack_node_tmp;
 
-	if ((*s)->size < 2)
+	if ((*stack)->size < 2)
 		return ;
-	first_stack_node_tmp = (*s)->top;
-	last_stack_node_tmp = ft_stack_last(*s);
-
+	first_stack_node_tmp = (*stack)->top;
+	last_stack_node_tmp = ft_stack_last(*stack);
 	last_stack_node_tmp->prev->next = NULL;
 	last_stack_node_tmp->prev = NULL;
 	last_stack_node_tmp->next = first_stack_node_tmp;
-
 	first_stack_node_tmp->prev = last_stack_node_tmp;
-	(*s)->top = last_stack_node_tmp;
-
+	(*stack)->top = last_stack_node_tmp;
 	ft_stack_remove_node(first_stack_node_tmp);
 	ft_stack_remove_node(last_stack_node_tmp);
 }
@@ -45,11 +42,13 @@ static void	ft_do_reverse_rotate_op(t_stack **s)
 /// @param operations_count Int-Array that contains
 /// the count of all type of operations.
 /// @return Nothing
-void	rra(t_stack **a, int *operations_count)
+void	rra(t_stack **a, int *operations_count, int show_op)
 {
 	ft_do_reverse_rotate_op(a);
 	operations_count[OP_RRA]++;
 	operations_count[OP_TOTAL]++;
+	if (show_op)
+		write(1, "rra", 3);
 }
 
 /// @brief Function that rotate to the bottom of the stack_b
@@ -59,11 +58,13 @@ void	rra(t_stack **a, int *operations_count)
 /// @param operations_count Int-Array that contains
 /// the count of all type of operations.
 /// @return Nothing
-void	rrb(t_stack **b, int *operations_count)
+void	rrb(t_stack **b, int *operations_count, int show_op)
 {
 	ft_do_reverse_rotate_op(b);
 	operations_count[OP_RRB]++;
 	operations_count[OP_TOTAL]++;
+	if (show_op)
+		write(1, "rrb", 3);
 }
 
 /// @brief Function that do rra & rrb operations
@@ -73,12 +74,13 @@ void	rrb(t_stack **b, int *operations_count)
 /// @param operations_count Int-Array that contains
 /// the count of all type of operations.
 /// @return Nothing
-void	rrr(t_stack **a, t_stack **b, int *operations_count)
+void	rrr(t_push_swap_ops_data *operations_data)
 {
-	rra(a, operations_count);//¿rra(&a);?
-	rrb(b, operations_count);//¿rrb(&b);?
-	operations_count[OP_RRR]++;
-	operations_count[OP_RRA]--;
-	operations_count[OP_RRB]--;
-	operations_count[OP_TOTAL]--;
+	rra(operations_data->a, operations_data->operations_count, 0);
+	rrb(operations_data->b, operations_data->operations_count, 0);
+	operations_data->operations_count[OP_RRR]++;
+	operations_data->operations_count[OP_RRA]--;
+	operations_data->operations_count[OP_RRB]--;
+	operations_data->operations_count[OP_TOTAL]--;
+	write(1, "rrr", 3);
 }

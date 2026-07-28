@@ -7,7 +7,7 @@ CC				:= cc
 CFLAGS			:= # -Wall -Wextra -Werror
 CINCLUDES		:= -I ./lib
 CMD_RM_FLAGS	:= rm -rf
-CMD_AR_FLAGS	:= ar rcs0
+CMD_AR_FLAGS	:= ar rcs
 
 $(LIB_OBJS_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)

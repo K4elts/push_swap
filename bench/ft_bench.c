@@ -6,7 +6,7 @@
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/11 22:43:25 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/22 19:52:25 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/27 19:24:28 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ $> cat bench.txt
 [bench] sa: 0  sb: 0  ss: 0  pa: 500  pb: 500
 [bench] ra: 4840  rb: 1098  rr: 0  rra: 0  rrb: 1059  rrr: 0
 */
-void	ft_show_disorder(t_stack **s)
+static void	ft_show_disorder(t_stack **s)
 {
 	// es posible que todo esto pueda ser sustituido por la llamada a la funcion -> ft_compute_disorder(t_stack **s) para obtener como float el disorder.
 	// Ejemplos: 9999(99.99%), 4993(49.93%), 359(03.59%), 27(00.27%), 6(00.06%)
@@ -50,15 +50,13 @@ void	ft_show_disorder(t_stack **s)
 	ft_printchar('%');
 	ft_printchar('\n');
 }
-/// @brief Funcion que muestra el mensaje correspndiente a la estrategia utilizada.
-/// @param s
-void	ft_show_strategy(t_stack **s)
+
+/// @brief Function that shows the message of the used strategy.
+/// @param s stack_s
+/// @authors jgilabert & aliao-tr
+/// @return Nothing
+static void	ft_show_strategy(t_stack **s)
 {
-	/*while (condition)
-	{
-		// Mientras que strategy_used sea distinto de algun tipo de elemento en t_strategy, e bucle se sigue ejecutando.
-	}*/
-	ft_printf("[bench] strategy: ");
 	if ((*s)->strategy_used == STRAT_SIMPLE)
 		ft_printf(STRAT_SIMPLE_BENCH_MSG);
 	else if ((*s)->strategy_used == STRAT_MEDIUM)
@@ -78,14 +76,14 @@ void	ft_show_strategy(t_stack **s)
 
 /// @brief Funcion que muestra el numero total de operaciones realizadas.
 /// @param ops_count Array de enteros con el numero de operaciones de cada tipo.
-void	ft_show_total_operations_count(int *ops_count)
+static void	ft_show_total_operations_count(int *ops_count)
 {
 	ft_printf("[bench] total_ops: %d\n", ops_count[OP_TOTAL]);
 }
 
 /// @brief Funcion que 
 /// @param ops_count Array de enteros con el numero de operaciones de cada tipo.
-void	ft_show_total_operation_type_count(int *ops_count)
+static void	ft_show_total_operation_type_count(int *ops_count)
 {
 
 }
@@ -93,7 +91,8 @@ void	ft_show_total_operation_type_count(int *ops_count)
 /// @brief Function that shows on stderr the benchmark
 // La salida del modo benchmark debe enviarse a la salida stderr y solo se mostrará cuando la flag esté presente
 /// @authors jgilabert & aliao-tr
-/// @param s Puntero a un stack(t_stack)
+/// @param s stack_s
+/// @return Nothing
 void	ft_show_benchmark(t_stack **s, int *ops_count)
 {
 	ft_show_disorder(s);

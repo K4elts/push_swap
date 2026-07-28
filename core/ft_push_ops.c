@@ -6,7 +6,7 @@
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 17:11:07 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/22 19:55:14 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:39:27 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,24 @@
 /// @param operations_count Int-Array that contains
 /// the count of all type of operations.
 /// @return Nothing
-void	pa(t_stack **a, t_stack **b, int *operations_count)
+void	pa(t_push_swap_ops_data *operations_data)
 {
 	t_stack_node	*stack_b_top_node_tmp;
 
-	if (!a || !(*a)->top)
+	if (!operations_data || !(*operations_data->a)->top)
 		return ;
-	stack_b_top_node_tmp = (*b)->top;
-
-	(*b)->top = (*b)->top->next;
-	(*b)->top->prev = NULL;
-
-	stack_b_top_node_tmp->next = (*a)->top;
-	(*a)->top->prev = stack_b_top_node_tmp;
-	(*a)->top = stack_b_top_node_tmp;
-
-	(*a)->size++;
-	(*b)->size--;
-
+	stack_b_top_node_tmp = (*operations_data->b)->top;
+	(*operations_data->b)->top = (*operations_data->b)->top->next;
+	(*operations_data->b)->top->prev = NULL;
+	stack_b_top_node_tmp->next = (*operations_data->a)->top;
+	(*operations_data->a)->top->prev = stack_b_top_node_tmp;
+	(*operations_data->a)->top = stack_b_top_node_tmp;
+	(*operations_data->a)->size++;
+	(*operations_data->b)->size--;
 	ft_stack_remove_node(stack_b_top_node_tmp);
-	operations_count[OP_PA]++;
-	operations_count[OP_TOTAL]++;
+	operations_data->operations_count[OP_PA]++;
+	operations_data->operations_count[OP_TOTAL]++;
+	write(1, "pa", 2);
 }
 
 /// @brief Function that take the first element of stack_a
@@ -51,25 +48,22 @@ void	pa(t_stack **a, t_stack **b, int *operations_count)
 /// @param operations_count Int-Array that contains
 /// the count of all type of operations.
 /// @return Nothing
-void	pb(t_stack **a, t_stack **b, int *operations_count)
+void	pb(t_push_swap_ops_data *operations_data)
 {
 	t_stack_node	*stack_a_top_node_tmp;
 
-	if (!b || !(*b)->top)
+	if (!operations_data || !(*operations_data->b)->top)
 		return ;
-	stack_a_top_node_tmp = (*a)->top;
-
-	(*a)->top = (*a)->top->next;
-	(*a)->top->prev = NULL;
-
-	stack_a_top_node_tmp->next = (*b)->top;
-	(*b)->top->prev = stack_a_top_node_tmp;
-	(*b)->top = stack_a_top_node_tmp;
-
-	(*a)->size--;
-	(*b)->size++;
-
+	stack_a_top_node_tmp = (*operations_data->a)->top;
+	(*operations_data->a)->top = (*operations_data->a)->top->next;
+	(*operations_data->a)->top->prev = NULL;
+	stack_a_top_node_tmp->next = (*operations_data->b)->top;
+	(*operations_data->b)->top->prev = stack_a_top_node_tmp;
+	(*operations_data->b)->top = stack_a_top_node_tmp;
+	(*operations_data->a)->size--;
+	(*operations_data->b)->size++;
 	ft_stack_remove_node(stack_a_top_node_tmp);
-	operations_count[OP_PB]++;
-	operations_count[OP_TOTAL]++;
+	operations_data->operations_count[OP_PB]++;
+	operations_data->operations_count[OP_TOTAL]++;
+	write(1, "pb", 2);
 }
