@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/27 17:12:27 by aliao-tr          #+#    #+#             */
-/*   Updated: 2026/07/20 14:37:36 by aliao-tr         ###   ########.fr       */
+/*   Created: 2026/05/28 20:38:20 by jgilaber          #+#    #+#             */
+/*   Updated: 2026/06/19 21:19:24 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-char	*ft_strdup(const char *s)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	int		strlen;
-	int		i;
-	char	*ptr;
+	unsigned char	*ptr;
+	size_t			i;
 
 	i = 0;
-	strlen = ft_strlen(s);
-	ptr = malloc((sizeof(char) * strlen + 1));
-	if (ptr == NULL)
-		return (NULL);
-	while (s[i] != '\0')
+	ptr = (unsigned char *)s;
+	while (i < n)
 	{
-		ptr[i] = s[i];
+		ptr[i] = (unsigned char)c;
 		i++;
 	}
-	ptr[i] = '\0';
-	return (ptr);
+	return (s);
 }

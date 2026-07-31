@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 12:30:24 by aliao-tr          #+#    #+#             */
-/*   Updated: 2026/07/28 13:02:29 by aliao-tr         ###   ########.fr       */
+/*   Updated: 2026/07/30 13:37:36 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+/// @brief redirects if argument is a flag or a number
+/// @param str string from split
+/// @param flags array of flags
+/// @param numbers array of numbers
+/// @param size size of numbers array
 void	check_nbr_or_flag(char **str, int *flags, int *numbers, int *size)
 {
 	int	i;
@@ -29,12 +34,11 @@ void	check_nbr_or_flag(char **str, int *flags, int *numbers, int *size)
 	}
 }
 
-void	exit_program(void)
-{
-	write(2, "Error\n", 6);
-	exit(1);
-}
-
+/// @brief saves the number into the numbers array
+/// @param str 
+/// @param numbers array of numbers
+/// @param size size of numbers
+/// @param split_str 
 void	save_number(char *str, int *numbers, int *size, char **split_str)
 {
 	long	nbr;
@@ -54,6 +58,10 @@ void	save_number(char *str, int *numbers, int *size, char **split_str)
 	(*size)++;
 }
 
+/// @brief checks if there is a duplicated numbers
+/// @param numbers array of numbers
+/// @param size size of numbers array
+/// @return 0 if theres no duplicates and 1 if there is duplicates
 int	check_duplicates(int *numbers, int size)
 {
 	int	i;
@@ -74,6 +82,9 @@ int	check_duplicates(int *numbers, int size)
 	return (0);
 }
 
+/// @brief checks if the number if valid
+/// @param str number
+/// @return 0 if number is valid, 1 if not
 int	is_valid(char *str)
 {
 	int	i;
@@ -90,4 +101,39 @@ int	is_valid(char *str)
 		i++;
 	}
 	return (1);
+}
+
+/// @brief counts how many numbers there are
+/// @param argc numbers of arguments
+/// @param argv value of arguments
+/// @return how many numbers there are
+int	count_numbers(int argc, char **argv)
+{
+	char	**str;
+	int		i;
+	int		j;
+	int		count;
+
+	i = 1;
+	count = 0;
+	while (i < argc)
+	{
+		if (argv[i][0] == '-' && argv[i][1] == '-')
+		{
+			i++;
+			continue ;
+		}
+		str = ft_split(argv[i], ' ');
+		if (!str)
+			return (0);
+		j = 0;
+		while (str[j])
+		{
+			count++;
+			j++;
+		}
+		free_ft_split(str);
+		i++;
+	}
+	return (count);
 }

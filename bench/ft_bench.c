@@ -3,52 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bench.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/11 22:43:25 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/27 19:24:28 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/31 11:42:52 by aliao-tr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "ft_printf.h"
 #include "push_swap.h"
 
-/* El modo benchmark (--bench) es opcional, y mostrará tras la ordenación lo siguiente:
-◦ El índice de desorden ( % con dos decimales).
-◦ El nombre de la estrategia usada y su clase de complejidad teórica.
-◦ El número total de operaciones empleadas.
-◦ El número de operaciones de cada tipo (sa, sb, ss, pa, pb, ra, rb, rr, rra,
-rrb, rrr) empleadas durante la ordenación.
-La salida del modo benchmark debe enviarse a la salida stderr y solo se mostrará
-cuando la flag esté presente.
-
-Ejemplo:
-$>shuf -i 0-9999 -n 500 > args.txt ; ./push_swap --bench $(cat args.txt) 2> bench.txt | ./checker_linux $(cat args.txt)
-OK
-$> cat bench.txt
-[bench] disorder: 49.93%
-[bench] strategy: Adaptive / O(n√n)
-[bench] total_ops: 7997
-[bench] sa: 0  sb: 0  ss: 0  pa: 500  pb: 500
-[bench] ra: 4840  rb: 1098  rr: 0  rra: 0  rrb: 1059  rrr: 0
-*/
+/// @brief Function that show the information of the disorder.
+/// La operacion +0.5f es el truco correcto para redondear a dos decimales
+/// cuando conviertes el float a centésimas enteras.
+/// @param s 
+/// @return Nothing
 static void	ft_show_disorder(t_stack **s)
 {
-	// es posible que todo esto pueda ser sustituido por la llamada a la funcion -> ft_compute_disorder(t_stack **s) para obtener como float el disorder.
-	// Ejemplos: 9999(99.99%), 4993(49.93%), 359(03.59%), 27(00.27%), 6(00.06%)
-	ft_printf("[bench] disorder: ");
-	// Si tenemos 4 digitos de longitud en (*s)->disorder, entonces cogemos los 2 primeros, los mostramos, luego el . y luego los otros 2 restantes.
-	if ((*s)->disorder > 999)
-	{}
-	else if ((*s)->disorder > 99)
-	{}
-	else if ((*s)->disorder > 9)
-	{}
-	else
-	{}
-	// Mostramos los caracteres finales.
-	ft_printchar('%');
-	ft_printchar('\n');
+	long	value;
+	long	ent;
+	long	dec;
+
+	value = (long)((*s)->disorder * 100.0f + 0.5f);
+	ent = value / 100;
+	dec = value % 100;
+	ft_putstr_fd("[bench] disorder: ", 2);
+	if (ent < 10)
+		ft_putchar_fd('0', 2);
+	ft_putnbr_fd(ent, 2);
+	ft_putchar_fd('.', 2);
+	if (dec < 10)
+		ft_putchar_fd('0', 2);
+	ft_putnbr_fd(dec, 2);
+	ft_putendl_fd("%", 2);
 }
 
 /// @brief Function that shows the message of the used strategy.
@@ -58,38 +46,52 @@ static void	ft_show_disorder(t_stack **s)
 static void	ft_show_strategy(t_stack **s)
 {
 	if ((*s)->strategy_used == STRAT_SIMPLE)
-		ft_printf(STRAT_SIMPLE_BENCH_MSG);
+		ft_putendl_fd(STRAT_SIMPLE_BENCH_MSG, 2);
 	else if ((*s)->strategy_used == STRAT_MEDIUM)
-		ft_printf(STRAT_MEDIUM_BENCH_MSG);
+		ft_putendl_fd(STRAT_MEDIUM_BENCH_MSG, 2);
 	else if ((*s)->strategy_used == STRAT_COMPLEX)
-		ft_printf(STRAT_COMPLEX_BENCH_MSG);
+		ft_putendl_fd(STRAT_COMPLEX_BENCH_MSG, 2);
 	else
 	{
 		if ((*s)->disorder < 0.2)
-			ft_printf(STRAT_ADAPTATIVE_EASY_BENCH_MSG);
+			ft_putendl_fd(STRAT_ADAPTATIVE_SIMPLE_BENCH_MSG, 2);
 		else if ((*s)->disorder >= 0.5)
-			ft_printf(STRAT_ADAPTATIVE_COMPLEX_BENCH_MSG);
+			ft_putendl_fd(STRAT_ADAPTATIVE_COMPLEX_BENCH_MSG, 2);
 		else
-			ft_printf(STRAT_ADAPTATIVE_MEDIUM_BENCH_MSG);
+			ft_putendl_fd(STRAT_ADAPTATIVE_MEDIUM_BENCH_MSG, 2);
 	}
 }
 
-/// @brief Funcion que muestra el numero total de operaciones realizadas.
+/// @brief Function that show the total operation of each type.
 /// @param ops_count Array de enteros con el numero de operaciones de cada tipo.
 static void	ft_show_total_operations_count(int *ops_count)
 {
-	ft_printf("[bench] total_ops: %d\n", ops_count[OP_TOTAL]);
-}
-
-/// @brief Funcion que 
-/// @param ops_count Array de enteros con el numero de operaciones de cada tipo.
-static void	ft_show_total_operation_type_count(int *ops_count)
-{
-
+	ft_putstr_fd("[bench] sa: ", 2);
+	ft_putstr_fd(ft_itoa(ops_count[OP_SA]), 2);
+	//ft_putnbr_fd(ops_count[OP_SA], 2);//version oprimizada sin usar itoa, si esto funciona itoa no hace falta y se puede eliminar ft_itoa.c
+	ft_putstr_fd("  sb: ", 2);
+	ft_putstr_fd(ft_itoa(ops_count[OP_SB]), 2);
+	ft_putstr_fd("  ss: ", 2);
+	ft_putstr_fd(ft_itoa(ops_count[OP_SS]), 2);
+	ft_putstr_fd("  pa: ", 2);
+	ft_putstr_fd(ft_itoa(ops_count[OP_PA]), 2);
+	ft_putstr_fd("  pb: ", 2);
+	ft_putendl_fd(ft_itoa(ops_count[OP_PB]), 2);
+	ft_putstr_fd("[bench] ra: ", 2);
+	ft_putstr_fd(ft_itoa(ops_count[OP_RA]), 2);
+	ft_putstr_fd("  rb: ", 2);
+	ft_putstr_fd(ft_itoa(ops_count[OP_RB]), 2);
+	ft_putstr_fd("  rr: ", 2);
+	ft_putstr_fd(ft_itoa(ops_count[OP_RR]), 2);
+	ft_putstr_fd("  rra: ", 2);
+	ft_putstr_fd(ft_itoa(ops_count[OP_RRA]), 2);
+	ft_putstr_fd("  rrb: ", 2);
+	ft_putstr_fd(ft_itoa(ops_count[OP_RRB]), 2);
+	ft_putstr_fd("  rrr: ", 2);
+	ft_putendl_fd(ft_itoa(ops_count[OP_RRR]), 2);
 }
 
 /// @brief Function that shows on stderr the benchmark
-// La salida del modo benchmark debe enviarse a la salida stderr y solo se mostrará cuando la flag esté presente
 /// @authors jgilabert & aliao-tr
 /// @param s stack_s
 /// @return Nothing
@@ -97,6 +99,6 @@ void	ft_show_benchmark(t_stack **s, int *ops_count)
 {
 	ft_show_disorder(s);
 	ft_show_strategy(s);
+	ft_printf("[bench] total_ops: %d\n", ops_count[OP_TOTAL]);
 	ft_show_total_operations_count(ops_count);
-	ft_show_total_operation_type_count(ops_count);
 }

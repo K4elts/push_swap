@@ -11,28 +11,38 @@
 /* ************************************************************************** */
 
 #include "stacklib.h"
+#include <stdio.h>
 
 /// @brief 
 /// @param numbres 
 /// @param strategy_useg 
 /// @return t_stack A new stack with ¿?
-t_stack	*ft_new_stack(int *numbers, int strategy_argv)
+t_stack	*ft_new_stack(int *numbers, int strategy_argv, int numbers_size)
 {
-	size_t			index;
 	size_t			stack_size;
 	int				stack_node_index;
 	t_stack			*new_stack;
 	t_stack_node	*temp_stack;
 
 	new_stack = malloc(sizeof(t_stack));
-	index = 0;
+	if (!new_stack)
+		return (NULL);
+	new_stack->top = NULL;
 	stack_size = 0;
-	while (*numbers)
+	while (stack_size < (size_t)numbers_size)
 	{
+		//stack_node_index = ft_get_stack_node_index_from_value(
+				//&numbers[stack_size], numbers[stack_size], numbers_size);
 		stack_node_index = ft_get_stack_node_index_from_value(
-				&numbers[stack_size], numbers[stack_size]);
+				numbers, numbers[stack_size], numbers_size);
 		temp_stack = ft_new_stack_node(numbers[stack_size], stack_node_index);
+		if (!temp_stack)
+		{
+			ft_stack_clear(&new_stack);
+			return (NULL);
+		}
 		ft_stack_push(&new_stack, temp_stack);
+		//numbers++;
 		stack_size++;
 	}
 	new_stack->size = stack_size;
@@ -40,18 +50,17 @@ t_stack	*ft_new_stack(int *numbers, int strategy_argv)
 	return (new_stack);
 }
 
-/// @brief Function that caalculate the index of tne recived value max_value
+/// @brief Function that calculate the index of tne recived value max_value
 /// @param numbers 
 /// @param max_value El valor sobre el que tenemos que cacular el index.
 /// @return 
-int	ft_get_stack_node_index_from_value(int *numbers, int max_value)
+int	ft_get_stack_node_index_from_value(int *numbers, int max_value, int numbers_size)
 {
 	int	numbers_index;
 	int	stack_node_min_count_index;
-
 	numbers_index = 0;
 	stack_node_min_count_index = 0;
-	while (numbers[numbers_index])
+	while (numbers_index < numbers_size)//while (numbers[numbers_index]) //numbers_index < max_size
 	{
 		if (numbers[numbers_index] < max_value)
 			stack_node_min_count_index++;
@@ -84,11 +93,14 @@ t_stack_node	*ft_new_stack_node(int data, int index)
 /// @return t_stack_node -> The last node of the stack.
 t_stack_node	*ft_stack_last(t_stack *stack)
 {
-	if (!stack)
+	t_stack_node	*current;
+
+	if (!stack || !stack->top)
 		return (NULL);
-	while (stack->top->next)
-		stack->top = stack->top->next;
-	return (stack->top);
+	current = stack->top;
+	while (current->next)
+		current = current->next;
+	return (current);
 }
 
 /// @brief Function that pushes a new node to the top of a stack.
@@ -100,6 +112,11 @@ void	ft_stack_push(t_stack **stack, t_stack_node *new)
 {
 	t_stack_node	*tmp_stack_node;
 
+	if (!(*stack)->top)
+	{
+		(*stack)->top = new;
+		return ;
+	}
 	tmp_stack_node = (*stack)->top;
 	new->next = tmp_stack_node;
 	tmp_stack_node->prev = new;

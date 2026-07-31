@@ -3,37 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/28 11:42:28 by aliao-tr          #+#    #+#             */
-/*   Updated: 2026/07/20 14:37:53 by aliao-tr         ###   ########.fr       */
+/*   Created: 2026/06/01 21:36:13 by jgilaber          #+#    #+#             */
+/*   Updated: 2026/06/19 21:28:56 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*ptr;
-	size_t	slen;
-	size_t	i;
+	char	*str;
+	char	*substr;
 
-	if (s == NULL)
+	if (!s)
 		return (NULL);
-	slen = ft_strlen(s);
-	if (start >= slen)
+	if (start >= ft_strlen(s) || len == 0)
 		return (ft_strdup(""));
-	if (len > slen - start)
-		len = slen - start;
-	ptr = malloc(sizeof(char) * len + 1);
-	if (ptr == NULL)
+	if (start + len > ft_strlen(s))
+		len = ft_strlen(s) - start;
+	substr = malloc(sizeof(char) * (len + 1));
+	if (!substr)
 		return (NULL);
-	i = 0;
-	while (s[start + i] != '\0' && i < len)
-	{
-		ptr[i] = s[start + i];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
+	str = (char *)s;
+	ft_strlcpy(substr, &str[start], len + 1);
+	return (substr);
 }

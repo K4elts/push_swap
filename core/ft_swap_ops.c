@@ -6,7 +6,7 @@
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 17:11:23 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/27 18:42:56 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/28 21:18:11 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	sa(t_stack **a, int *operations_count, int show_op)
 	operations_count[OP_SA]++;
 	operations_count[OP_TOTAL]++;
 	if (show_op)
-		write(1, "sa", 2);
+		ft_putendl_fd("sa", 1);
 }
 
 /// @brief Function that swap the first and the second element of stack_b.
@@ -59,7 +59,7 @@ void	sb(t_stack **b, int *operations_count, int show_op)
 	operations_count[OP_SB]++;
 	operations_count[OP_TOTAL]++;
 	if (show_op)
-		write(1, "sb", 2);
+		ft_putendl_fd("sb", 1);
 }
 
 /// @brief Function that do sa & sb operations
@@ -77,5 +77,5 @@ void	ss(t_push_swap_ops_data *operations_data)
 	operations_data->operations_count[OP_SA]--;
 	operations_data->operations_count[OP_SB]--;
 	operations_data->operations_count[OP_TOTAL]--;
-	write(1, "ss", 2);
+	ft_putendl_fd("ss", 1);
 }

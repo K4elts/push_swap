@@ -3,157 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   ft_push_swap.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 17:18:13 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/20 22:10:02 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/31 17:24:17 by aliao-tr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-#include "get_next_line.h"
+#include "lib/push_swap.h"
 
-/// @brief Return sacado de -> ft_exec_strat_dispatch() ya que no devuelve nada, ops_count lo recibe en vez de crearlo.
-// El índice de desorden se calculará antes de hacer ningún movimiento.
-// Establecemmos el valor de disorder del stack_a al obtenido de ft_do_compute_disorder(t_stack **s)
-/// @return operations_count Int-Array that contains
-/// the count of all type of operations.
-void	ft_push_swap(t_stack **a, t_stack **b, int **nbr_list)
-{
-	int	*operations_count;
-
-	operations_count = malloc(sizeof(int) * OP_TOTAL);
-	ft_exec_strat_dispatch(a, b, operations_count);
-}
-
-//en main ahora: comprueba si hay uno o mas arguentos. Si es solo uno hace split y los guarda en un array, si son mas de 2 argumentos los guarda directamente.
-//tambien comprueba si hay numeros duplicados en el array
-//Hay que comprobar que solo haya numeros, no haya numeros duplicados(HECHO), si introduce varios signos + o -
-//Si cada numero es un argumentos se guardan tal cual, ejemplo: ./push_swap 5 2 9 -1 (HECHO)
-//en caso de que se pasen en un solo argumento, ejemplo: ./push_swap "1 6 -2 54" hacer split para separar los numeros y guardarlos. (HECHO)
-//en cuanto al indice habrá que hacer algun tipo de indexacion para que cada nodo tenga guardado el indice que le corresponda:
-//IDEA??: guardar en array -> con copia ordenada del array -> comparar los dos array para saber el indice que deberia tener el numero con la lista ordenada
-/*
-//checks if there is a duplicate number
-static int	ft_check_duplicated_values(int *array, int array_len)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < array_len)
-	{
-		j = i + 1;
-		while (j < array_len)
-		{
-			if (array[i] == array[j])
-				return (1);
-			j++;
-		}
-		i++;
-	}
-	return (0);
-}
-//fills an array with the numbers (each number is an argument)
-static int	*fill_array(int argc, char **argv)
-{
-	int	*array;
-	int	i;
-
-	array = malloc(sizeof(int) * argc - 1);
-	if (!array)
-		return (NULL);
-	i = 0;
-	if (argc > 2)
-	{
-		while (i < argc - 1)
-		{
-			array[i] = ft_atoi(argv[i + 1]);
-			i++;
-		}
-	}
-	return (array);
-}
-//array_len for split, un solo argumento //supongo que se podrá juntar con array_len
-static int	count_size(char **nums)
-{
-	int	i;
-
-	i = 0;
-	while (nums[i])
-		i++;
-	return (i);
-}
-//numbers are in one argument, do split and adds it to the array
-static int	*ft_do_one_argument(char ** argv)
-{
-	char	**nums;
-	int		size;
-	int		*array;
-	int		i;
-	int		j;
-
-	nums = ft_split(argv[1], ' ');
-	if (!nums)
-		return (NULL);
-	size = count_size(nums);
-	array = malloc(sizeof(int) * size);
-	if (!array)
-		return (NULL);
-	i = 0;
-	while (i < size)
-	{
-		j = 0;
-		array[i] = ft_atoi(nums[i]);
-		i++;
-	}
-	return (array);
-}
-//array_len //para fill_array, varios argumentos
-static int	array_len(int *array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-		i++;
-	return (i);
-}
-
+/// @brief 
+/// @param argc 
+/// @param argv 
+/// @return 
 int	main(int argc, char **argv)
 {
-	i	//t_stack	**stack_a;
-	int		*array;
-	int		array_size;
-	int		i;
-	int		isduplicate;
+	t_push_swap_ops_data	*operations_data;
+	int						*numbers;
+	int						*flags;
+	t_stack					*new_stack_a;
+	t_stack					*new_stack_b;
+	int						*operations_count;
 
-	if (argc < 2)
-		return (printf("Error"), -1);
-	if (argc == 2)
-		array = ft_do_one_argument(argv);
+	flags = malloc(sizeof(int) * 5);
+	if (!flags)
+		return (1);
+	numbers = do_parser(argc, argv, flags);
+	if (!numbers)
+		return (1);
+	operations_data = malloc(sizeof(t_push_swap_ops_data));
+	if (!operations_data)
+		return (1);
+	new_stack_a = ft_new_stack(
+			numbers, get_flag(flags), count_numbers(argc, argv));
+	if (!new_stack_a)
+		return (1);
+	new_stack_b = malloc(sizeof(t_stack));
+	if (!new_stack_b)
+		return (1);
+	operations_count = malloc(sizeof(int) * (OP_TOTAL + 1));
+	if (!operations_count)
+		return (1);
+	operations_data->a = &new_stack_a;
+	operations_data->operations_count = operations_count;
+	new_stack_b->top = NULL;
+	new_stack_b->size = 0;
+	operations_data->b = &new_stack_b;
+	//(*operations_data->a)->disorder = ft_do_disorder((*operations_data->a));
+	(*operations_data->a)->disorder = 0;
+	printf("size: %zu\n", (*operations_data->a)->size);
+	if ((*operations_data->a)->size <= 5)
+		ft_sort_small(&(*operations_data));
 	else
-		array = fill_array(argc, argv);
-	array_size = array_len(array);
-	isduplicate = ft_check_duplicated_values(array, array_size);
-	if (isduplicate == 1)
+		ft_exec_strat_dispatch(operations_data);
+	printf("disorder: %f\n\n", (*operations_data->a)->disorder);
+	while ((*operations_data->a)->top)
 	{
-		printf("Numero duplicado");
-		return (0);
+		printf("%d ", (*operations_data->a)->top->data);
+		(*operations_data->a)->top = (*operations_data->a)->top->next;
 	}
-	//sortarray(array);
-	i = 0;
-	while (array[i])
-	{
-		printf("valor: %d\n", array[i]);
-		i++;
-	}
+	if (flags[4] == 1)
+		ft_show_benchmark(
+			operations_data->a, operations_data->operations_count);
+	printf("\n%d %d %d %d %d\n",
+		flags[0], flags[1], flags[2], flags[3], flags[4]);
+	free(flags);
 	return (0);
 }
-	
-JGILABERT NOTES:
-	int ft_check_argv(); Funcion que utiliza ft_isdigit() para comprobar si los argumentos son todos numeros. Devuelve 1 si todos los argumentos son numeros.
-
-	//en cuanto al indice habrá que hacer algun tipo de indexacion para que cada nodo tenga guardado el indice que le corresponda:
-	ESO SE SUPONE QUE ESTA HECHO YA CON index en la struct que define un t_stack. ESO SI, HABRIA QUE ACTUALIZARLO AUTMATICAMENTE PARA TODOS LOS ELEMENTOS DEL STACK CADA VEZ QUE SE REALIZA UNA OPERACION Y ES UNA FUMADERA XD, PERO HABRA QUE HACERLO.
-*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_rev_rot_ops.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 17:12:12 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/27 18:45:06 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/31 17:24:47 by aliao-tr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static void	ft_do_reverse_rotate_op(t_stack **stack)
 	last_stack_node_tmp->next = first_stack_node_tmp;
 	first_stack_node_tmp->prev = last_stack_node_tmp;
 	(*stack)->top = last_stack_node_tmp;
-	ft_stack_remove_node(first_stack_node_tmp);
-	ft_stack_remove_node(last_stack_node_tmp);
+	//ft_stack_remove_node(first_stack_node_tmp);
+	//ft_stack_remove_node(last_stack_node_tmp);
 }
 
 /// @brief Function that rotate to the bottom of the stack_a
@@ -48,7 +48,7 @@ void	rra(t_stack **a, int *operations_count, int show_op)
 	operations_count[OP_RRA]++;
 	operations_count[OP_TOTAL]++;
 	if (show_op)
-		write(1, "rra", 3);
+		ft_putendl_fd("rra", 1);
 }
 
 /// @brief Function that rotate to the bottom of the stack_b
@@ -64,7 +64,7 @@ void	rrb(t_stack **b, int *operations_count, int show_op)
 	operations_count[OP_RRB]++;
 	operations_count[OP_TOTAL]++;
 	if (show_op)
-		write(1, "rrb", 3);
+		ft_putendl_fd("rrb", 1);
 }
 
 /// @brief Function that do rra & rrb operations
@@ -82,5 +82,5 @@ void	rrr(t_push_swap_ops_data *operations_data)
 	operations_data->operations_count[OP_RRA]--;
 	operations_data->operations_count[OP_RRB]--;
 	operations_data->operations_count[OP_TOTAL]--;
-	write(1, "rrr", 3);
+	ft_putendl_fd("rrr", 1);
 }

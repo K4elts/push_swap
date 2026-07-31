@@ -3,36 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/25 15:52:51 by aliao-tr          #+#    #+#             */
-/*   Updated: 2026/07/15 13:26:46 by aliao-tr         ###   ########.fr       */
+/*   Created: 2026/02/16 12:05:33 by jgilaber          #+#    #+#             */
+/*   Updated: 2026/06/19 21:18:11 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
 int	ft_atoi(const char *nptr)
 {
-	int	i;
-	int	sign;
-	int	nbr;
+	int	atoi_nbr;
+	int	atoi_nbr_sign;
 
-	i = 0;
-	sign = 1;
-	nbr = 0;
-	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == 32)
-		i++;
-	if (nptr[i] == '+' || nptr[i] == '-')
+	atoi_nbr_sign = 1;
+	while (*nptr == ' ' || (*nptr > 6 && *nptr < 14))
+		nptr++;
+	if (*nptr == '+' || *nptr == '-')
 	{
-		if (nptr[i] == '-')
-			sign = sign * -1;
-		i++;
+		if (*nptr == '-')
+			atoi_nbr_sign = -atoi_nbr_sign;
+		nptr++;
 	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
+	atoi_nbr = 0;
+	while (*nptr > 47 && *nptr < 58)
 	{
-		nbr = (nbr * 10) + (nptr[i] - '0');
-		i++;
+		atoi_nbr = (atoi_nbr * 10) + (*nptr - '0');
+		nptr++;
 	}
-	return (nbr * sign);
+	return (atoi_nbr_sign * atoi_nbr);
 }

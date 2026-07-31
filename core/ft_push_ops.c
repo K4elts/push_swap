@@ -6,7 +6,7 @@
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 17:11:07 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/27 18:39:27 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/30 20:31:06 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,27 @@
 /// @return Nothing
 void	pa(t_push_swap_ops_data *operations_data)
 {
-	t_stack_node	*stack_b_top_node_tmp;
+	t_stack_node	*tmp;
 
-	if (!operations_data || !(*operations_data->a)->top)
+	if (!operations_data || !operations_data->b
+		|| !*operations_data->b || !(*operations_data->b)->top)
 		return ;
-	stack_b_top_node_tmp = (*operations_data->b)->top;
-	(*operations_data->b)->top = (*operations_data->b)->top->next;
-	(*operations_data->b)->top->prev = NULL;
-	stack_b_top_node_tmp->next = (*operations_data->a)->top;
-	(*operations_data->a)->top->prev = stack_b_top_node_tmp;
-	(*operations_data->a)->top = stack_b_top_node_tmp;
+	tmp = (*operations_data->b)->top;
+	(*operations_data->b)->top = tmp->next;
+	if ((*operations_data->b)->top)
+		(*operations_data->b)->top->prev = NULL;
+
+	tmp->prev = NULL;
+	tmp->next = (*operations_data->a)->top;
+	if ((*operations_data->a)->top)
+		(*operations_data->a)->top->prev = tmp;
+	(*operations_data->a)->top = tmp;
+
 	(*operations_data->a)->size++;
 	(*operations_data->b)->size--;
-	ft_stack_remove_node(stack_b_top_node_tmp);
 	operations_data->operations_count[OP_PA]++;
 	operations_data->operations_count[OP_TOTAL]++;
-	write(1, "pa", 2);
+	ft_putendl_fd("pa", 1);
 }
 
 /// @brief Function that take the first element of stack_a
@@ -50,20 +55,25 @@ void	pa(t_push_swap_ops_data *operations_data)
 /// @return Nothing
 void	pb(t_push_swap_ops_data *operations_data)
 {
-	t_stack_node	*stack_a_top_node_tmp;
+	t_stack_node	*tmp;
 
-	if (!operations_data || !(*operations_data->b)->top)
+	if (!(**operations_data->a).top)
 		return ;
-	stack_a_top_node_tmp = (*operations_data->a)->top;
-	(*operations_data->a)->top = (*operations_data->a)->top->next;
-	(*operations_data->a)->top->prev = NULL;
-	stack_a_top_node_tmp->next = (*operations_data->b)->top;
-	(*operations_data->b)->top->prev = stack_a_top_node_tmp;
-	(*operations_data->b)->top = stack_a_top_node_tmp;
+	tmp = (*operations_data->a)->top;
+
+	(*operations_data->a)->top = tmp->next;
+	if ((*operations_data->a)->top)
+		(*operations_data->a)->top->prev = NULL;
+
+	tmp->next = (*operations_data->b)->top;
+	tmp->prev = NULL;
+	if ((*operations_data->b)->top)
+		(*operations_data->b)->top->prev = tmp;
+	(*operations_data->b)->top = tmp;
+
 	(*operations_data->a)->size--;
 	(*operations_data->b)->size++;
-	ft_stack_remove_node(stack_a_top_node_tmp);
 	operations_data->operations_count[OP_PB]++;
 	operations_data->operations_count[OP_TOTAL]++;
-	write(1, "pb", 2);
+	ft_putendl_fd("pb", 1);
 }

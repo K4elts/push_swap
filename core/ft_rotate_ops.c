@@ -6,7 +6,7 @@
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 17:11:47 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/27 18:44:22 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/07/30 16:14:24 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	ft_do_rotate_op(t_stack **stack)
 	first_stack_node_tmp->prev = last_stack_node_tmp;
 	first_stack_node_tmp->next = NULL;
 	last_stack_node_tmp->next = first_stack_node_tmp;
-	ft_stack_remove_node(first_stack_node_tmp);
+	//ft_stack_remove_node(first_stack_node_tmp);
 }
 
 /// @brief Function that rotate to the top of the stack_a
@@ -47,7 +47,7 @@ void	ra(t_stack **a, int *operations_count, int show_op)
 	operations_count[OP_RA]++;
 	operations_count[OP_TOTAL]++;
 	if (show_op)
-		write(1, "ra", 2);
+		ft_putendl_fd("ra", 1);
 }
 
 /// @brief Function that rotate to the top of the stack_b
@@ -63,7 +63,7 @@ void	rb(t_stack **b, int *operations_count, int show_op)
 	operations_count[OP_RB]++;
 	operations_count[OP_TOTAL]++;
 	if (show_op)
-		write(1, "rb", 2);
+		ft_putendl_fd("rb", 1);
 }
 
 /// @brief Function that do ra & rb operations
@@ -81,5 +81,5 @@ void	rr(t_push_swap_ops_data *operations_data)
 	operations_data->operations_count[OP_RA]--;
 	operations_data->operations_count[OP_RB]--;
 	operations_data->operations_count[OP_TOTAL]--;
-	write(1, "rr", 2);
+	ft_putendl_fd("rr", 1);
 }

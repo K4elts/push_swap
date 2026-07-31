@@ -33,7 +33,7 @@ void	ft_stack_clear(t_stack **stack)
 
 	if (!stack)
 		return ;
-	while (*stack != NULL)
+	while ((*stack)->top != NULL)
 	{
 		tmp_stack_node = (*stack)->top->next;
 		free((*stack)->top);
@@ -46,20 +46,21 @@ void	ft_stack_clear(t_stack **stack)
 /// @param a stack_a
 /// @return min - The lowest number on the stack
 /// SUJETO A REVISION POR ANDRES.
-int	ft_get_min_stack_node_index(t_stack **stack)
+/// @deprecated
+size_t	ft_get_min_stack_node_index(t_stack **stack)
 {
-	int		min_stack_node_index;
-	t_stack	**temp_stack;
+	size_t			min_stack_node_index;
+	t_stack_node	*temp_stack;
 
-	if (!stack || !(*stack)->top)
+	if (!stack || !*stack || !(*stack)->top)
 		return (-1);
-	temp_stack = stack;
-	min_stack_node_index = (*temp_stack)->top->index;
-	while ((*temp_stack)->top)
+	temp_stack = (*stack)->top;
+	min_stack_node_index = temp_stack->index;
+	while (temp_stack)
 	{
-		if ((*temp_stack)->top->index < min_stack_node_index)
-			min_stack_node_index = (*temp_stack)->top->index;
-		(*temp_stack)->top = (*temp_stack)->top->next;
+		if (temp_stack->index < min_stack_node_index)
+			min_stack_node_index = temp_stack->index;
+		temp_stack = temp_stack->next;
 	}
 	return (min_stack_node_index);
 }
@@ -70,7 +71,7 @@ int	ft_get_min_stack_node_index(t_stack **stack)
 /// @param min Lowest number on the stack
 /// @return Position on the stack of the lowest number
 /// SUJETO A REVISION POR ANDRES.
-int	ft_get_min_stack_node_pos(t_stack **stack, int min_stack_node_index)
+int	ft_get_min_stack_node_pos(t_stack **stack, size_t min_stack_node_index)
 {
 	t_stack_node	*temp_stack;
 	int				pos;
@@ -92,9 +93,9 @@ int	ft_get_min_stack_node_pos(t_stack **stack, int min_stack_node_index)
 /// @brief Function that ¿?
 /// @param b stack_b
 /// @return int The psoition of ¿?
-int	ft_get_max_stack_node_pos(t_stack *b)
+int	ft_get_max_stack_node_pos_old(t_stack *b)
 {
-	int				max;
+	size_t			max;
 	int				pos;
 	int				i;
 	t_stack_node	*tmp;
@@ -114,4 +115,28 @@ int	ft_get_max_stack_node_pos(t_stack *b)
 		i++;
 	}
 	return (pos);
+}
+
+int	ft_get_max_stack_node_pos(t_stack *s)
+{
+	t_stack_node *tmp;
+	size_t pos;
+	size_t max_pos;
+	size_t max;
+
+	tmp = s->top;
+	pos = 0;
+	max = tmp->index;
+	max_pos = 0;
+	while (tmp)
+	{
+		if (tmp->index > max)
+		{
+			max = tmp->index;
+			max_pos = pos;
+		}
+		tmp = tmp->next;
+		pos++;
+	}
+	return (max_pos);
 }

@@ -12,19 +12,18 @@
 
 #include "push_swap.h"
 
-
 /// @brief Function that checks if there is a chunk
 /// between start and end in medium strategy
-/// @param a 
+/// @param a stack_a
 /// @param start 
 /// @param end 
 /// @return Int -> If there is a chunk between start and end
 static int	ft_check_if_stack_has_a_chunk_on_a_range(
-	t_stack *a, int start, int end)
+	t_stack *s, size_t start, size_t end)
 {
 	t_stack_node	*tmp;
 
-	tmp = a->top;
+	tmp = s->top;
 	while (tmp)
 	{
 		if (tmp->index >= start && tmp->index <= end)
@@ -38,58 +37,66 @@ static int	ft_check_if_stack_has_a_chunk_on_a_range(
 // HAY QUE DEJAR AL FINAL DE B SIEMPRE EL VALOR MAS PEQUEÑO
 /// @param a stack_a
 /// @param b stack_b
-/// @param ops_count 
+/// @param ops_count Int-Array that contains
+/// the count of all type of operations.
+/// @return Nothing
 void	ft_do_medium_strategy_operations(
 	t_push_swap_ops_data *ops_data, int chunk_size)
 {
-	int	chunk_range_start;
-	int	chunk_range_end;
+	size_t	range_start;
+	size_t	range_end;
+	size_t	total_size;
 
-	chunk_range_start = 0;
-	while (chunk_range_start < (*ops_data->a)->size)
+	total_size = (*ops_data->a)->size;
+	range_start = 0;
+	while (range_start < total_size)
 	{
-		chunk_range_end = chunk_range_start + chunk_size - 1;
-		if (chunk_range_end >= (*ops_data->a)->size)
-			chunk_range_end = (*ops_data->a)->size - 1;
+		range_end = range_start + chunk_size - 1;
+		if (range_end >= total_size)
+			range_end = total_size - 1;
 		while (ft_check_if_stack_has_a_chunk_on_a_range(
-				*ops_data->a, chunk_range_start, chunk_range_end))
+				*ops_data->a, range_start, range_end))
 		{
-			if ((*ops_data->a)->top->index >= chunk_range_start
-				&& (*ops_data->a)->top->index <= chunk_range_end)
+			if ((*ops_data->a)->top->index >= range_start
+				&& (*ops_data->a)->top->index <= range_end)
 			{
 				pb(ops_data);
-				if ((*ops_data->a)->top->index
-					<= chunk_range_start + chunk_size / 2)
+				if ((*ops_data->b)->top->index < range_start + chunk_size / 2)
 					rb(ops_data->b, ops_data->operations_count, 1);
 			}
 			else
 				ra(ops_data->a, ops_data->operations_count, 1);
 		}
-		chunk_range_start += chunk_size;
+		range_start += chunk_size;
 	}
 }
 
 /// @brief Function that reconstructs stack_a from stack_b in medium strategy
 //esta funcion se tiene que ejecutar en bucle cuando ->
-///mirar en chatgpt si es mientras siga habiendo elementos en stack_b
 /// @param a stack_a
 /// @param b stack_b
-/// @param ops_count 
+/// @param ops_count Int-Array that contains
+/// the count of all type of operations.
+/// @return Nothing
 void	ft_do_medium_strategy_reconstruction(
 	t_push_swap_ops_data *ops_data)
 {
-	int	max_pos;
+	size_t	moves;
+	size_t	max_pos;
 
 	while ((*ops_data->b)->top)
 	{
 		max_pos = ft_get_max_stack_node_pos(*ops_data->b);
 		if (max_pos <= (*ops_data->b)->size / 2)
-			while (max_pos--)
+		{
+			moves = max_pos;
+			while (moves--)
 				rb(ops_data->b, ops_data->operations_count, 1);
+		}
 		else
 		{
-			max_pos = (*ops_data->b)->size - max_pos;
-			while (max_pos--)
+			moves = (*ops_data->b)->size - max_pos;
+			while (moves--)
 				rrb(ops_data->b, ops_data->operations_count, 1);
 		}
 		pa(ops_data);
