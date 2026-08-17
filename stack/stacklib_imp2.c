@@ -10,43 +10,63 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stacklib.h"
+#include "push_swap.h"
 
-/// @brief Function that removes a node from a stack.
+/// @brief Function that calculates the index of the received value max_value.
+/// It is used when creating the stack to assign the index of each node.
+/// @param numbers array of int-numbers
+/// @param max_value The value for which to calculate the index.
+/// @return The index of the received value.
 /// @authors jgilaber & aliao-tr
-/// @param stack_node The stack node to remove.
-/// @return Nothing
-void	ft_stack_remove_node(t_stack_node *stack_node)
+static int	ft_calc_stack_node_index(int *numbers, size_t numbers_size, int max_value)
 {
-	if (!stack_node)
-		return ;
-	free(stack_node);
+	size_t	numbers_index;
+	size_t	stack_node_min_count_index;
+
+	numbers_index = 0;
+	stack_node_min_count_index = 0;
+	while (numbers_index < numbers_size)//while (numbers[numbers_index]) || numbers_index < max_size
+	{
+		if (numbers[numbers_index] < max_value)
+			stack_node_min_count_index++;
+		numbers_index++;
+	}
+	return (stack_node_min_count_index);
 }
 
-/// @brief Function that removes all nodes from a stack.
+/// @brief Fills the provided stack with nodes created from the given array of numbers.
+/// @param stack Pointer to the first stack.
+/// @param nmbrs Array of numbers to fill the stack with.
+/// @param nmbrs_size Size of the numbers array.
+/// @return Returns 1 on success, 0 on failure (e.g., memory allocation failure).
+/// @see ft_calc_stack_node_index & ft_new_stack_node
 /// @authors jgilaber & aliao-tr
-/// @param stack The stack to remove the node from.
-/// @return Nothing
-void	ft_stack_clear(t_stack **stack)
+/// El stack a con el formato de una lista de enteros (el primer argumento debe ser el que esté encima del stack).
+int ft_fill_stack(t_stack **stack, int *nmbrs, size_t nmbrs_size)
 {
-	t_stack_node	*tmp_stack_node;
+	size_t			stack_size;
+	t_stack_node	*temp_stack;
+	int				index;
 
-	if (!stack)
-		return ;
-	while ((*stack)->top != NULL)
+	stack_size = 0;
+	while (stack_size < nmbrs_size)
 	{
-		tmp_stack_node = (*stack)->top->next;
-		free((*stack)->top);
-		(*stack)->top = tmp_stack_node;
+		index = ft_calc_stack_node_index(nmbrs, nmbrs_size, nmbrs[stack_size]);
+		temp_stack = ft_new_stack_node(nmbrs[stack_size], index);
+		if (!temp_stack)
+			return (0);
+		ft_stack_push(stack, temp_stack);
+		stack_size++;
 	}
+	(*stack)->size = nmbrs_size;
+	return (1);
 }
 
 /// @brief Finds the lowest number on the stack
-/// @authors jgilaber & aliao-tr
-/// @param a stack_a
+/// @param stack The stack to get the lowest number from.
 /// @return min - The lowest number on the stack
+/// @authors jgilaber & aliao-tr
 /// SUJETO A REVISION POR ANDRES.
-/// @deprecated
 size_t	ft_get_min_stack_node_index(t_stack **stack)
 {
 	size_t			min_stack_node_index;
@@ -66,15 +86,15 @@ size_t	ft_get_min_stack_node_index(t_stack **stack)
 }
 
 /// @brief Finds the position on the stack of the lowest number
+/// @param stack The stack to get the minimum node position from.
+/// @param min_stack_node_index Lowest number on the stack
+/// @return Position of the min_stack_node_index number on the stack
 /// @authors jgilaber & aliao-tr
-/// @param a stack_a
-/// @param min Lowest number on the stack
-/// @return Position on the stack of the lowest number
 /// SUJETO A REVISION POR ANDRES.
-int	ft_get_min_stack_node_pos(t_stack **stack, size_t min_stack_node_index)
+size_t	ft_get_min_stack_node_pos(t_stack **stack, size_t min_stack_node_index)
 {
 	t_stack_node	*temp_stack;
-	int				pos;
+	size_t			pos;
 
 	if (!stack || !(*stack)->top)
 		return (-1);
@@ -90,41 +110,18 @@ int	ft_get_min_stack_node_pos(t_stack **stack, size_t min_stack_node_index)
 	return (-1);
 }
 
-/// @brief Function that ¿?
-/// @param b stack_b
-/// @return int The psoition of ¿?
-int	ft_get_max_stack_node_pos_old(t_stack *b)
+/// @brief Function that returns the position of the maximum node in a stack.
+/// @param stack The stack to get the maximum node position from.
+/// @return The position of the maximum node on the stack.
+/// @authors jgilaber & aliao-tr
+size_t	ft_get_max_stack_node_pos(t_stack *stack)
 {
-	size_t			max;
-	int				pos;
-	int				i;
-	t_stack_node	*tmp;
-
-	i = 0;
-	pos = 0;
-	max = -1;
-	tmp = b->top;
-	while (tmp)
-	{
-		if (tmp->index > max)
-		{
-			max = tmp->index;
-			pos = i;
-		}
-		tmp = tmp->next;
-		i++;
-	}
-	return (pos);
-}
-
-int	ft_get_max_stack_node_pos(t_stack *s)
-{
-	t_stack_node *tmp;
 	size_t pos;
-	size_t max_pos;
 	size_t max;
+	size_t max_pos;
+	t_stack_node *tmp;
 
-	tmp = s->top;
+	tmp = stack->top;
 	pos = 0;
 	max = tmp->index;
 	max_pos = 0;

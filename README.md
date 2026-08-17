@@ -1,4 +1,4 @@
-# *Este proyecto ha sido creado como parte del currículo de 42 por jgilaber y aliao-tr.*
+# *Este proyecto ha sido creado como parte del currículo de 42 por `<jgilaber>` y `<aliao-tr>`.*
 
 # push_swap
 
@@ -326,6 +326,6 @@ La implementación, diseño y codificación del programa `push_swap` han sido re
 
 ## 👤 Autor
 
-**Login 42:** `jgilaber`
+**Login 42:** `jgilaber` y `aliao-tr`
 
 Proyecto realizado como parte del programa de formación de **42 Madrid**.

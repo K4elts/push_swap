@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-size_t	get_index_pos(t_push_swap_ops_data *operations_data, size_t index)
+static size_t	get_index_pos(t_push_swap_ops_data *operations_data, size_t index)//ft_get_index_pos
 {
 	size_t			pos;
 	t_stack_node	*node;
@@ -41,17 +41,3 @@ void	move_index_to_top(t_push_swap_ops_data *operations_data, size_t index)
 	}
 }
 
-void	ft_sort_small(t_push_swap_ops_data *operations_data)
-{
-	int	size;
-
-	size = (*operations_data->a)->size;
-	if (size == 2)//y disorder sea 100% o 1
-		sort_two(operations_data);
-	else if (size == 3)
-		sort_three(operations_data);
-	else if (size == 4)
-		sort_four(operations_data);
-	else if (size == 5)
-		sort_five(operations_data);
-}

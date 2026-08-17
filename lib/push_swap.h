@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 19:30:56 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/31 17:07:11 by aliao-tr         ###   ########.fr       */
+/*   Updated: 2026/07/31 17:57:13 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,26 @@
 # include <stdlib.h>//malloc, free
 # include <limits.h>//INT_MAX, INT_MIN
 # include <stdio.h>//printf, eliminar despues
+# include <fcntl.h>//open
+# include <stdarg.h>//
+# include "push_swap_helpers.h"
 # include "stacklib.h"
-# include "libft.h"
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+# define FD_CHECKER_IN 666
+# define FD_CHECKER_OUT 666
+# define HIDE_PUSH_SWAP_OPERATION 0
+# define SHOW_PUSH_SWAP_OPERATION 1
 
 typedef struct s_push_swap_ops_data
 {
 	t_stack	**a;
 	t_stack	**b;
 	int		*operations_count;
+	int		show_op;
 }	t_push_swap_ops_data;
-
-/// ESTO PUEDE SER USADO EN fT_do_op(),
-///para eso habria que limpiar la linea leida para quitar
-///'\n' de la operacion leida -> "pa\n"
-/// @deprecated
-typedef struct s_push_swap_operations
-{
-	void	(*pa)(t_push_swap_ops_data *operations_data);
-	void	(*pb)(t_push_swap_ops_data *operations_data);
-	void	(*sa)(t_stack **a, int *operations_count);
-	void	(*sb)(t_stack **b, int *operations_count);
-	void	(*ss)(t_push_swap_ops_data *operations_data);
-	void	(*ra)(t_stack **a, int *operations_count);
-	void	(*rb)(t_stack **b, int *operations_count);
-	void	(*rr)(t_push_swap_ops_data *operations_data);
-	void	(*rra)(t_stack **a, int *operations_count);
-	void	(*rrb)(t_stack **b, int *operations_count);
-	void	(*rrr)(t_push_swap_ops_data *operations_data);
-}	t_push_swap_operations;
 
 typedef enum e_push_swap_operations_type
 {
@@ -62,50 +54,32 @@ typedef enum e_push_swap_operations_type
 	OP_TOTAL
 }	t_push_swap_operations_type;
 
-//OPERATIONS
 void	pa(t_push_swap_ops_data *operations_data);
 void	pb(t_push_swap_ops_data *operations_data);
-void	sa(t_stack **a, int *operations_count, int show_op);
-void	sb(t_stack **b, int *operations_count, int show_op);
+void	sa(t_stack **stack_a, int *operations_count, int show_op);
+void	sb(t_stack **stack_b, int *operations_count, int show_op);
 void	ss(t_push_swap_ops_data *operations_data);
-void	ra(t_stack **a, int *operations_count, int show_op);
-void	rb(t_stack **b, int *operations_count, int show_op);
+void	ra(t_stack **stack_a, int *operations_count, int show_op);
+void	rb(t_stack **stack_b, int *operations_count, int show_op);
 void	rr(t_push_swap_ops_data *operations_data);
-void	rra(t_stack **a, int *operations_count, int show_op);
-void	rrb(t_stack **b, int *operations_count, int show_op);
+void	rra(t_stack **stack_a, int *operations_count, int show_op);
+void	rrb(t_stack **stack_b, int *operations_count, int show_op);
 void	rrr(t_push_swap_ops_data *operations_data);
-
-//void	ft_do_op(t_push_swap_ops_data *operations_data, char *operation);//revisar
-double	ft_do_disorder(t_stack *s);
-void	ft_show_benchmark(t_stack **s, int *ops_count);
-int		ft_check_if_argv_has_only_int_numbers(int *array);//eliminar, ya la hizo andres
-int		ft_check_if_argv_has_duplicated_values(int *array);//eliminar, ya la hizo andres
-
-// SMALL-STRATEGY
-void	sort_two(t_push_swap_ops_data *operations_data);
-void	sort_three(t_push_swap_ops_data *operations_data);
-void	sort_four(t_push_swap_ops_data *operations_data);//X
-void	sort_five(t_push_swap_ops_data *operations_data);//X
-size_t	get_index_pos(t_push_swap_ops_data *operations_data, size_t index);
-void	move_index_to_top(t_push_swap_ops_data *operations_data, size_t index);
-
-// PARSER
-int		parse_args(int argc, char **argv, int *flags, int *numbers);
-int		check_flag_type(char *str);
-int		check_flags(int *flags);
-int		get_flag(int *flags);
-int		check_bench(int argc, char **argv);
-int		*do_parser(int argc, char **argv, int *flags);
-void	init_flags(int *flags);
-void	free_all(char **str, int *numbers);
-void	free_ft_split(char **str);
-int		count_numbers(int argc, char **argv);
-int		is_valid(char *str);
-int		check_duplicates(int *numbers, int size);
-void	save_number(char *str, int *numbers, int *size, char **split_str);
-void	check_nbr_or_flag(char **str, int *flags, int *numbers, int *size);
-void	exit_program(void);
-
-void	ft_sort_small(t_push_swap_ops_data *operations_data);
+void	ft_show_push_swap_op(char *operation, int show_op);
+void	ft_exit_program(char *exit_message, int exit_code);
+double	ft_get_disorder(t_stack **stack);
+int		ft_check_benchmark(int argc, char **argv);
+void	ft_show_benchmark(t_stack *stack, int *ops_count);
+int		ft_count_numbers(int argc, char **argv);
+int		ft_parse_args(int argc, char **argv, int *flags, int *numbers);
+void	ft_free_split(char **str);
+void	ft_free_all(char **str, int *numbers);
+void	ft_save_number(char *str, char **splt_str, int *nbrs, size_t *nbrs_size);
+int		ft_check_duplicates_numbers(int *numbers, int size);
+void	ft_check_nbr_or_flag(char **str, int *flags, int *nmbrs, size_t *size);
+int		ft_check_strategy_flags(int *flags);
+int		ft_get_strategy_flag(int *flags);
+void 	ft_push_swap_checker(int argc, char **argv);
+int 	ft_read_operations(t_push_swap_ops_data *operations_data, int fd);
 
 #endif

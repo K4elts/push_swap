@@ -19,28 +19,26 @@ typedef struct s_push_swap_ops_data	t_push_swap_ops_data;
 # define STRAT_SIMPLE_BENCH_MSG    "Simple / O(n2)"
 # define STRAT_MEDIUM_BENCH_MSG    "Medium / O(n√n)"
 # define STRAT_COMPLEX_BENCH_MSG   "Complex / O(n log n)"
-# define STRAT_ADAPTATIVE_SIMPLE_BENCH_MSG "Adaptative / O(n2)"
-# define STRAT_ADAPTATIVE_MEDIUM_BENCH_MSG   "Adaptive / O(n√n)"
-# define STRAT_ADAPTATIVE_COMPLEX_BENCH_MSG   "Adaptive / O(n log n)"
+# define STRAT_ADAPTIVE_SIMPLE_BENCH_MSG "Adaptive / O(n2)"
+# define STRAT_ADAPTIVE_MEDIUM_BENCH_MSG   "Adaptive / O(n√n)"
+# define STRAT_ADAPTIVE_COMPLEX_BENCH_MSG   "Adaptive / O(n log n)"
 
 typedef enum e_strategy_type
 {
 	STRAT_SIMPLE,
 	STRAT_MEDIUM,
 	STRAT_COMPLEX,
-	STRAT_ADAPTATIVE,
+	STRAT_ADAPTIVE,
 	BENCH
 }	t_strategy_type;
 
 void	ft_exec_strat_dispatch(t_push_swap_ops_data *operations_data);
-void	ft_do_simple_strategy(t_push_swap_ops_data *operations_data);
-void	ft_do_medium_strategy(t_push_swap_ops_data *operations_data);
+void	ft_do_small_sort(t_push_swap_ops_data *operations_data);
 void	ft_do_medium_strategy_operations(
 			t_push_swap_ops_data *operations_data, int chunk_size);
 void	ft_do_medium_strategy_reconstruction(
 			t_push_swap_ops_data *operations_data);
-void	ft_do_complex_strategy(t_push_swap_ops_data *operations_data);
-void	ft_do_adaptative_strategy(t_push_swap_ops_data *operations_data);
-int		ft_get_lsd_bit(int stack_node_data, int lsd_bit_index);
+// REVISAR -> preguntar para que sirven las funciones ft_strategy_small_utils.c
+void	move_index_to_top(t_push_swap_ops_data *operations_data, size_t index);
 
 #endif

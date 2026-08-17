@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
 
 static size_t	ft_get_init_word_index(
 	const char *str, char c, size_t init_word_index

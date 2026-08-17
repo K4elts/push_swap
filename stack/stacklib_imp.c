@@ -10,69 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stacklib.h"
-#include <stdio.h>
+#include "push_swap.h"
 
-/// @brief 
-/// @param numbres 
-/// @param strategy_useg 
-/// @return t_stack A new stack with ¿?
-t_stack	*ft_new_stack(int *numbers, int strategy_argv, int numbers_size)
+/// @brief Function that creates a new stack of type t_stack.
+/// @param strategy The strategy used in push_swap
+/// @return New stack with the new data
+/// @authors jgilaber & aliao-tr
+t_stack	*ft_new_stack(int strategy)
 {
-	size_t			stack_size;
-	int				stack_node_index;
 	t_stack			*new_stack;
-	t_stack_node	*temp_stack;
 
 	new_stack = malloc(sizeof(t_stack));
 	if (!new_stack)
 		return (NULL);
 	new_stack->top = NULL;
-	stack_size = 0;
-	while (stack_size < (size_t)numbers_size)
-	{
-		//stack_node_index = ft_get_stack_node_index_from_value(
-				//&numbers[stack_size], numbers[stack_size], numbers_size);
-		stack_node_index = ft_get_stack_node_index_from_value(
-				numbers, numbers[stack_size], numbers_size);
-		temp_stack = ft_new_stack_node(numbers[stack_size], stack_node_index);
-		if (!temp_stack)
-		{
-			ft_stack_clear(&new_stack);
-			return (NULL);
-		}
-		ft_stack_push(&new_stack, temp_stack);
-		//numbers++;
-		stack_size++;
-	}
-	new_stack->size = stack_size;
-	new_stack->strategy_used = strategy_argv;
+	new_stack->size = 0;
+	new_stack->disorder = 0;
+	new_stack->strategy_used = strategy;
 	return (new_stack);
 }
 
-/// @brief Function that calculate the index of tne recived value max_value
-/// @param numbers 
-/// @param max_value El valor sobre el que tenemos que cacular el index.
-/// @return 
-int	ft_get_stack_node_index_from_value(int *numbers, int max_value, int numbers_size)
-{
-	int	numbers_index;
-	int	stack_node_min_count_index;
-	numbers_index = 0;
-	stack_node_min_count_index = 0;
-	while (numbers_index < numbers_size)//while (numbers[numbers_index]) //numbers_index < max_size
-	{
-		if (numbers[numbers_index] < max_value)
-			stack_node_min_count_index++;
-		numbers_index++;
-	}
-	return (stack_node_min_count_index);
-}
-
 /// @brief Function that creates a new node of type t_stack_node.
-/// @authors jgilaber & aliao-tr
 /// @param data The data of the new node.
-/// @return t_stack_node -> The new stack_node created. 
+/// @param index The index of the new node.
+/// @return The new stack-node created. 
+/// @authors jgilaber & aliao-tr
 t_stack_node	*ft_new_stack_node(int data, int index)
 {
 	t_stack_node	*stack_node;
@@ -88,9 +50,9 @@ t_stack_node	*ft_new_stack_node(int data, int index)
 }
 
 /// @brief Function that returns the last node of a stack.
-/// @authors jgilaber & aliao-tr
 /// @param stack The stack to get the last node from.
-/// @return t_stack_node -> The last node of the stack.
+/// @return The last node of the stack.
+/// @authors jgilaber & aliao-tr
 t_stack_node	*ft_stack_last(t_stack *stack)
 {
 	t_stack_node	*current;
@@ -103,23 +65,42 @@ t_stack_node	*ft_stack_last(t_stack *stack)
 	return (current);
 }
 
-/// @brief Function that pushes a new node to the top of a stack.
-/// @authors jgilaber & aliao-tr
+/// @brief Function that pushes a new stack-node to the top of a stack.
 /// @param stack The stack to push to.
-/// @param  new The new node to push.
+/// @param  new_stack_node The new node to push.
 /// @return Nothing
-void	ft_stack_push(t_stack **stack, t_stack_node *new)
+/// @authors jgilaber & aliao-tr
+void	ft_stack_push(t_stack **stack, t_stack_node *new_stack_node)
 {
 	t_stack_node	*tmp_stack_node;
 
 	if (!(*stack)->top)
 	{
-		(*stack)->top = new;
+		(*stack)->top = new_stack_node;
 		return ;
 	}
 	tmp_stack_node = (*stack)->top;
-	new->next = tmp_stack_node;
-	tmp_stack_node->prev = new;
-	(*stack)->top = new;
+	new_stack_node->next = tmp_stack_node;
+	tmp_stack_node->prev = new_stack_node;
+	(*stack)->top = new_stack_node;
 }
 
+/// @brief Function that removes all nodes from a stack.
+/// @param stack The stack to remove the node from.
+/// @return Nothing
+/// @authors jgilaber & aliao-tr
+void	ft_stack_clear(t_stack **stack)
+{
+	t_stack_node	*tmp_stack_node;
+
+	if (!stack || !*stack || !(*stack)->top)
+		return ;
+	while ((*stack)->top)
+	{
+		tmp_stack_node = (*stack)->top->next;
+		free((*stack)->top);
+		(*stack)->top = tmp_stack_node;
+	}
+	free(*stack);
+	*stack = NULL;
+}

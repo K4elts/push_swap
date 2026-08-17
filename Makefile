@@ -1,4 +1,5 @@
 LIB_NAME		:= push_swap.a
+LIB_EXE_NAME	:= push_swap
 LIB_SRCS_DIRS	:= . bench core errors helpers parser stack strategy utils
 LIB_SRCS_FILES	:= $(foreach dir,$(LIB_SRCS_DIRS),$(wildcard $(dir)/*.c))
 LIB_OBJS_DIR	:= build
@@ -17,6 +18,7 @@ $(LIB_OBJS_DIR)/%.o: %.c
 $(LIB_NAME): $(LIB_OBJS_FILES)
 	@echo "Executing command -> ar rcs $(LIB_NAME) $(LIB_OBJS_FILES)"
 	@$(CMD_AR_FLAGS) $(LIB_NAME) $(LIB_OBJS_FILES)
+	@echo "$(CC) ./ft_push_swap.c $(LIB_NAME) -o $(LIB_EXE_NAME)"
 	@echo ""
 
 all: $(LIB_NAME)
@@ -33,6 +35,8 @@ fclean: clean
 	@echo "Full Cleaning ..."
 	@echo "Removing -> $(CMD_RM_FLAGS) $(LIB_NAME) ..."
 	@$(CMD_RM_FLAGS) $(LIB_NAME)
+	@echo "Removing -> $(CMD_RM_FLAGS) $(LIB_EXE_NAME) ..."
+	@$(CMD_RM_FLAGS) $(LIB_EXE_NAME)
 	@echo ""
 
 re: fclean all
