@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_small_strategy.c                                :+:      :+:    :+:   */
+/*   ft_strategy_small.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:42:25 by aliao-tr          #+#    #+#             */
-/*   Updated: 2026/07/31 16:57:17 by aliao-tr         ###   ########.fr       */
+/*   Updated: 2026/08/20 13:36:44 by aliao-tr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ static void	ft_do_sort_three(t_push_swap_ops_data *ops_data)
 /// @authors jgilaber & aliao-tr
 static void	ft_do_sort_four(t_push_swap_ops_data *ops_data)
 {
-	while ((*ops_data->a)->top->index != 0)
-		ra(ops_data->a, ops_data->operations_count, ops_data->show_op);
+	move_index_to_top(ops_data, 0);
 	pb(ops_data);
 	ft_do_sort_three(ops_data);
 	pa(ops_data);
@@ -85,8 +84,8 @@ static void	ft_do_sort_five(t_push_swap_ops_data *ops_data)
 	pa(ops_data);
 }
 
-/// @brief Small-Sort dispatcher function that calls the correct sorting function.
-/// @param operations_data Struct that contains the stacks and the operations count. 
+/// @brief Dispatcher function that calls the correct small sorting function.
+/// @param operations_data Struct that contains the stacks and operations count.
 /// @return Nothing
 /// @see ft_do_sort_two, ft_do_sort_three, ft_do_sort_four & ft_do_sort_five
 /// @authors jgilaber & aliao-tr
@@ -103,6 +102,4 @@ void	ft_do_small_sort(t_push_swap_ops_data *operations_data)
 		ft_do_sort_four(operations_data);
 	else if (size == 5)
 		ft_do_sort_five(operations_data);
-	else
-		ft_exit_program("Error\n", 1);//¿esto es correcto?
 }

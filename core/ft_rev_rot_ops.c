@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_rev_rot_ops.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 17:12:12 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/31 17:54:11 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/08/19 12:39:36 by aliao-tr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	ft_do_reverse_rotate_op(t_stack **stack)
 /// @param stack_a The stack to do rra operation from.
 /// @param operations_count Int-Array that contains
 /// the count of all type of operations.
-/// @param show_op Boolean that indicates if the operation has to be showed/should be printed.
+/// @param show_op Indicates if the operation should be printed.
 /// @return Nothing
 /// @see ft_do_reverse_rotate_op & ft_show_push_swap_op
 /// @authors jgilaber & aliao-tr
@@ -55,7 +55,7 @@ void	rra(t_stack **stack_a, int *operations_count, int show_op)
 /// @param stack_b The stack to do rrb operation from.
 /// @param operations_count Int-Array that contains
 /// the count of all type of operations.
-/// @param show_op Boolean that indicates if the operation has to be showed/should be printed.
+/// @param show_op Indicates if the operation should be printed.
 /// @return Nothing
 /// @see ft_do_reverse_rotate_op & ft_show_push_swap_op
 /// @authors jgilaber & aliao-tr
@@ -68,17 +68,17 @@ void	rrb(t_stack **stack_b, int *operations_count, int show_op)
 }
 
 /// @brief Function that do rra & rrb operations.
-/// @param operations_data Struct that contains the stacks and the operations count.
+/// @param operations_data Struct that contains the stacks and operations count.
 /// @return Nothing
 /// @see ft_show_push_swap_op
 /// @authors jgilaber & aliao-tr
-void	rrr(t_push_swap_ops_data *operations_data)
+void	rrr(t_push_swap_ops_data *ops_data)
 {
-	rra(operations_data->a, operations_data->operations_count, HIDE_PUSH_SWAP_OPERATION);
-	rrb(operations_data->b, operations_data->operations_count, HIDE_PUSH_SWAP_OPERATION);
-	operations_data->operations_count[OP_RRR]++;
-	operations_data->operations_count[OP_RRA]--;
-	operations_data->operations_count[OP_RRB]--;
-	operations_data->operations_count[OP_TOTAL]--;
-	ft_show_push_swap_op("rrr", operations_data->show_op);
+	rra(ops_data->a, ops_data->operations_count, HIDE_PUSH_SWAP_OPERATION);
+	rrb(ops_data->b, ops_data->operations_count, HIDE_PUSH_SWAP_OPERATION);
+	ops_data->operations_count[OP_RRR]++;
+	ops_data->operations_count[OP_RRA]--;
+	ops_data->operations_count[OP_RRB]--;
+	ops_data->operations_count[OP_TOTAL]--;
+	ft_show_push_swap_op("rrr", ops_data->show_op);
 }

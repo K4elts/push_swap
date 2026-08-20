@@ -25,7 +25,7 @@ int	ft_isdigit(int c)
 /// @param fd 
 void	ft_putchar_fd(char c, int fd)
 {
-    if (!c || fd < 0)
+	if (!c || fd < 0)
 		return ;
 	write(fd, &c, sizeof(char));
 }
@@ -71,5 +71,5 @@ void	ft_putnbr_fd(int n, int fd)
 	if (nbr > 9)
 		ft_putnbr_fd(nbr / 10, fd);
 	c = (nbr % 10) + '0';
-	write(fd, &c, 1);//ft_putchar_fd(c, fd);
+	ft_putchar_fd(c, fd);
 }

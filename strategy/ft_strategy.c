@@ -22,7 +22,7 @@
 static void	ft_do_simple_strategy(t_push_swap_ops_data *ops_data)
 {
 	size_t	min;
-	size_t	pos;
+	int		pos;
 
 	while ((**ops_data->a).top)
 	{
@@ -40,29 +40,6 @@ static void	ft_do_simple_strategy(t_push_swap_ops_data *ops_data)
 		pa(ops_data);
 }
 
-/* Algoritmo perteneciente a la clase de complejidad O(n√n).
-    • Orden basado en chunks (dividido en √n chunks)
-    • Métodos de partición basados en bloques
-    • Adaptaciones del orden por buckets con √n buckets
-    • Estrategias de orden basadas en rangos
-
-normalizar/indexar
-establecer un tamaño de chunk(chunk_size).
-para cada chunk:
-    mientras exista un elemento del chunk:
-        si es el primero del stack
-            pb
-            si pertenece a la mitad baja del chunk
-                rb
-        si no es el primero del stack
-            ra
-fin
-mientras B no esté vacía:
-    localizar máximo
-    rb o rrb (el camino más corto)
-    pa
-fin
-*/
 /// @brief Medium Strategy Sorting Method with O(n√n) complexity.
 /// @param operations_data Struct that contains the stacks
 /// and the operations count.
@@ -154,6 +131,4 @@ void	ft_exec_strat_dispatch(t_push_swap_ops_data *operations_data)
 		ft_do_complex_strategy(operations_data);
 	else if (strategy == STRAT_ADAPTIVE)
 		ft_do_adaptative_strategy(operations_data);
-	else
-		ft_exit_program("Error", 1);//ESTO PUEDE ESTAR MAL. ELIMINAR SOLO LA PARTE DEL else EN CASO DE ESTAR MAL. REVISAR MUY BIEN. PREGUNTAR AL RESTO DEL CONSEJO SI ES NECESARIO.
 }

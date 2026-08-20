@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strategy_utils.c                                :+:      :+:    :+:   */
+/*   ft_parser_flags.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aliao-tr <aliao-tr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -52,7 +52,7 @@ void	ft_check_nbr_or_flag(char **str, int *flags, int *nmbrs, size_t *size)
 		if (type != -1)
 			flags[type]++;
 		else
-			ft_save_number(str[i], str, nmbrs, size);
+			ft_save_numbr(str[i], str, nmbrs, size);
 		i++;
 	}
 }

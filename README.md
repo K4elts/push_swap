@@ -58,12 +58,19 @@ Además, constituye una primera aproximación al estudio de la complejidad algor
 
 ---
 
+# Casos de ejecucion especificos
+
+* `push_swap --bench` → No muestra nada al no haber ningun numero como argumento. Se da por hecho que bench estara al completo a 0.
+* `push_swap --simple 123 --simple` → Muestra las operaciones realizadas para ordenar la secuencia 123, aceptando como estrategia la indicada aunque la misma este duplicada.
+
+---
+
 ## 🛠️ Instrucciones
 
 ### Requisitos
 
 * Sistema operativo Linux o macOS.
-* Compilador compatible con C (`gcc` o `clang`).
+* Compilador compatible con C (`cc` o `clang`).
 * `make`.
 
 ### Compilación
@@ -123,21 +130,22 @@ Otro ejemplo:
 Salida posible:
 
 ```text
+rra
+rra
 pb
+ra
 ra
 pb
 sa
+rra
 pa
 pa
-ra
-ra
 ```
 
 Comprobar el resultado utilizando el programa `checker`:
 
 ```bash
-ARG="3 2 5 1 4"
-./push_swap $ARG | ./checker $ARG
+ARG="3 2 5 1 4"; ./push_swap $ARG | ./checker_linux $ARG
 ```
 
 Salida:
@@ -162,7 +170,7 @@ OK
 
 La estrategia de ordenación se divide en dos partes.
 
-### Conjuntos pequeños
+### Ordenación para pocos elementos
 
 Para secuencias reducidas (entre 2 y 5 elementos) se utilizan algoritmos específicos construidos manualmente.
 
@@ -175,12 +183,37 @@ Estos algoritmos:
 Por ejemplo:
 
 * 2 elementos → máximo 1 operación.
-* 3 elementos → máximo 2 o 3 operaciones.
-* 5 elementos → utilización temporal de la pila B para simplificar la ordenación.
+* 3 elementos → máximo 2 operaciones.
+* 4 elementos → máximo 7 operaciones y con uso de la pila B para simplificar la ordenación.
+* 5 elementos → máximo 10 operaciones y con uso de la pila B para simplificar la ordenación.
 
 ---
 
-### Conjuntos grandes: Radix Sort sobre índices normalizados
+### Ordenación simple: Selection Sort mediante extracción de mínimos
+
+### Estrategia Simple
+
+La **estrategia simple** se basa en un enfoque similar al **Selection Sort**, adaptado a las restricciones de `push_swap`.
+
+* Buscar el **elemento más pequeño** de la pila `A`.
+* Comprobar su posición y elegir la rotación más corta:
+
+  * `ra` si está más cerca del inicio.
+  * `rra` si está más cerca del final.
+* Llevar el mínimo al `top` y enviarlo a la pila `B` mediante `pb`.
+* Repetir el proceso hasta vaciar `A`.
+* Finalmente, devolver todos los elementos de `B` a `A` mediante `pa`.
+
+De esta forma, los elementos se extraen en orden creciente y la pila `A` queda ordenada.
+
+**Complejidad:** aproximadamente **O(n²)** operaciones para `n` elementos.
+
+---
+
+### Ordenación media: Chunk Sort
+AQUI JGILA
+
+### Ordenación compleja: Radix Sort sobre índices normalizados
 
 Para conjuntos de mayor tamaño se utiliza una variante de **Radix Sort binario**.
 
@@ -272,6 +305,7 @@ Cada nodo almacena:
 * El valor original.
 * El índice normalizado.
 * Un puntero al siguiente elemento.
+* Un puntero al anterior elemento.
 
 La utilización de listas enlazadas ofrece varias ventajas:
 
@@ -303,7 +337,7 @@ La combinación de estructuras dinámicas, algoritmos especializados para conjun
 * Algorithms — Robert Sedgewick & Kevin Wayne.
 * The Linux Manual Pages Project (`man atoi`, `man malloc`, `man free`).
 * Documentación oficial del currículo de 42.
-* Documentación sobre Radix Sort y análisis de complejidad algorítmica.
+* Documentación sobre algoritmos de ordenación y análisis de complejidad algorítmica.
 
 ### Uso de Inteligencia Artificial
 
@@ -311,7 +345,8 @@ Durante el desarrollo de este proyecto se ha utilizado IA únicamente como herra
 
 * Revisión y mejora de la documentación.
 * Generación y corrección del archivo `README.md`.
-* Consulta de explicaciones teóricas sobre estructuras de datos, análisis de complejidad y funcionamiento de Radix Sort.
+* Consulta de explicaciones teóricas sobre estructuras de datos, análisis de complejidad y funcionamiento de los algoritmos de ordenación.
+* Corrección de errores e.g memory leaks, SIGSEGV, SIGINT, etc...
 
 La implementación, diseño y codificación del programa `push_swap` han sido realizados manualmente siguiendo los requisitos del proyecto y las normas académicas de 42.
 
@@ -319,8 +354,8 @@ La implementación, diseño y codificación del programa `push_swap` han sido re
 
 ## 📊 Rendimiento
 
-* 100 números aleatorios: menos de 700 operaciones.
-* 500 números aleatorios: menos de 5500 operaciones.
+* 100 números aleatorios: entre 600 y 1100 operaciones.
+* 500 números aleatorios: entre 6400 y 6800 operaciones.
 
 ---
 

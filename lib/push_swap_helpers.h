@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   push_swap_helpers.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 21:40:06 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/29 18:27:07 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/08/20 12:13:40 by aliao-tr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int		ft_isdigit(int c);
 char	*ft_itoa(int n);
-int		ft_atoi(const char *nptr);
+long	ft_atoi(const char *nptr);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
 char	**ft_split(char const *s, char c);
@@ -37,13 +37,13 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-int	    ft_printf(char const *format, ...);
-int 	ft_printchar(char c);
-int 	ft_printstr_fd(char *s, int fd);
-int	    ft_printnbr(long nbr);
-int	    ft_printunsignednbr(unsigned int nbr);
-int	    ft_printpointer(void *ptr);
-int	    ft_printhex(unsigned long nbr, char format);
+int		ft_printf(char const *format, ...);
+int		ft_printchar(char c);
+int		ft_printstr_fd(char *s, int fd);
+int		ft_printnbr(long nbr);
+int		ft_printunsignednbr(unsigned int nbr);
+int		ft_printpointer(void *ptr);
+int		ft_printhex(unsigned long nbr, char format);
 char	*get_next_line(int fd);
 
 #endif

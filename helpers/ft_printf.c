@@ -6,7 +6,7 @@
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/24 19:09:22 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/07 18:38:49 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/08/19 19:42:36 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_printchar(char c)
 {
-	return (write(1, &c, 1));
+	return (write(STDERR_FILENO, &c, 1));
 }
 
 int	ft_printstr_fd(char *s, int fd)

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strategy_utils.c                                :+:      :+:    :+:   */
+/*   ft_parser_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aliao-tr <aliao-tr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -21,6 +21,8 @@ void	ft_free_split(char **str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return ;
 	while (str[i])
 	{
 		free(str[i]);
@@ -48,7 +50,7 @@ void	ft_free_all(char **str, int *numbers)
 /// @return 0 if number is not valid, 1 if number is valid
 /// @see ft_save_number
 /// @authors jgilaber & aliao-tr
-static int ft_check_valid_numbers(char *str)
+static int	ft_check_valid_numbers(char *str)
 {
 	int	i;
 
@@ -56,7 +58,7 @@ static int ft_check_valid_numbers(char *str)
 	if (str[i] == '+' || str[i] == '-')
 		i++;
 	if (str[i] == '\0')
-		return (1);
+		return (0);
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
@@ -74,20 +76,20 @@ static int ft_check_valid_numbers(char *str)
 /// @return Nothing
 /// @see ft_check_valid_numbers & ft_free_all
 /// @authors jgilaber & aliao-tr
-void	ft_save_number(char *str, char **splt_str, int *nbrs, size_t *nbrs_size)// ft_fill_number
+void	ft_save_numbr(char *str, char **splt_str, int *nbrs, size_t *nbrs_size)
 {
 	long	nbr;
 
 	if (!ft_check_valid_numbers(str))
 	{
 		ft_free_all(splt_str, nbrs);
-		ft_exit_program("Error", 1);//-> algunos o todos los argumentos no sean enteros
+		ft_exit_program("Error", 1);
 	}
 	nbr = ft_atoi(str);
 	if (nbr < INT_MIN || nbr > INT_MAX)
 	{
 		ft_free_all(splt_str, nbrs);
-		ft_exit_program("Error", 1);//-> algunos o todos los argumentos sean más grandes que un número entero
+		ft_exit_program("Error", 1);
 	}
 	nbrs[*nbrs_size] = (int)nbr;
 	(*nbrs_size)++;

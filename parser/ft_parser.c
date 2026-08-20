@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strategy_utils.c                                :+:      :+:    :+:   */
+/*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aliao-tr <aliao-tr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -29,18 +29,16 @@ int	ft_count_numbers(int argc, char **argv)
 	count = 0;
 	while (i < argc)
 	{
-		if (argv[i][0] == '-' && argv[i][1] == '-')
-		{
-			i++;
-			continue ;
-		}
 		str = ft_split(argv[i], ' ');
 		if (!str)
 			return (0);
 		j = 0;
 		while (str[j])
+		{
+			if (str[j][0] != '-' || str[j][1] != '-')
+				count++;
 			j++;
-		count += j;
+		}
 		ft_free_split(str);
 		i++;
 	}
@@ -52,7 +50,7 @@ int	ft_count_numbers(int argc, char **argv)
 /// @param argv value of arguments
 /// @param flags array for flags
 /// @param numbers array of int-numbers
-/// @return Returns 1 on success, 0 on failure (e.g., memory allocation failure).
+/// @return Returns 1 on success, 0 on failure (e.g., mem-alloc-fail).
 /// @see main(ft_push_swap.c), ft_check_nbr_or_flag, ft_free_split,
 /// ft_check_strategy_flags & ft_check_duplicates_numbers
 /// @authors jgilaber & aliao-tr
@@ -61,8 +59,8 @@ int	ft_parse_args(int argc, char **argv, int *flags, int *numbers)
 	char	**str;
 	int		i;
 	size_t	numbers_size;
-	int 	has_duplicated_numbers;
-	int 	has_duplicated_strategy_flags;
+	int		has_duplicated_numbers;
+	int		has_duplicated_strategy_flags;
 
 	i = 1;
 	numbers_size = 0;

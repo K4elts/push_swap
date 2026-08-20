@@ -15,10 +15,10 @@
 /// @brief 
 /// @param nptr 
 /// @return 
-int	ft_atoi(const char *nptr)
+long	ft_atoi(const char *nptr)
 {
-	int	atoi_nbr;
-	int	atoi_nbr_sign;
+	long	atoi_nbr;
+	int		atoi_nbr_sign;
 
 	atoi_nbr_sign = 1;
 	while (*nptr == ' ' || (*nptr > 6 && *nptr < 14))
@@ -82,7 +82,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (strjoin);
 }
 
-
 /// @brief 
 /// @param s 
 /// @param start 
@@ -106,4 +105,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	ft_strlcpy(substr, &str[start], len + 1);
 	return (substr);
 }
-

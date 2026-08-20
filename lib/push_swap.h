@@ -6,7 +6,7 @@
 /*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 19:30:56 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/31 17:57:13 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/08/19 19:42:32 by jgilaber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,19 @@ void	rrr(t_push_swap_ops_data *operations_data);
 void	ft_show_push_swap_op(char *operation, int show_op);
 void	ft_exit_program(char *exit_message, int exit_code);
 double	ft_get_disorder(t_stack **stack);
+int		ft_check_numbers_order(int *numbers, size_t numbers_size);
 int		ft_check_benchmark(int argc, char **argv);
 void	ft_show_benchmark(t_stack *stack, int *ops_count);
 int		ft_count_numbers(int argc, char **argv);
 int		ft_parse_args(int argc, char **argv, int *flags, int *numbers);
 void	ft_free_split(char **str);
 void	ft_free_all(char **str, int *numbers);
-void	ft_save_number(char *str, char **splt_str, int *nbrs, size_t *nbrs_size);
+void	ft_save_numbr(char *str, char **splt_str, int *nbrs, size_t *nbrs_size);
 int		ft_check_duplicates_numbers(int *numbers, int size);
 void	ft_check_nbr_or_flag(char **str, int *flags, int *nmbrs, size_t *size);
 int		ft_check_strategy_flags(int *flags);
 int		ft_get_strategy_flag(int *flags);
-void 	ft_push_swap_checker(int argc, char **argv);
-int 	ft_read_operations(t_push_swap_ops_data *operations_data, int fd);
+void	ft_push_swap_checker(int argc, char **argv);
+int		ft_read_operations(t_push_swap_ops_data *operations_data, int fd);
 
 #endif

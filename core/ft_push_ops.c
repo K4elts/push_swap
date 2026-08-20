@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_push_ops.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgilaber <jgilaber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/09 17:11:07 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/31 17:53:39 by jgilaber         ###   ########.fr       */
+/*   Updated: 2026/08/19 12:39:37 by aliao-tr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /// @brief Function that take the first element of stack_b
 /// and push it to the top of stack_a.
-/// @param operations_data Struct that contains the stacks and the operations count.
+/// @param operations_data Struct that contains the stacks and operations count.
 /// @return Nothing
 /// @see ft_show_push_swap_op
 /// @authors jgilaber & aliao-tr
@@ -43,7 +43,7 @@ void	pa(t_push_swap_ops_data *operations_data)
 
 /// @brief Function that take the first element of stack_a
 /// and push it to the top of stack_b.
-/// @param operations_data Struct that contains the stacks and the operations count.
+/// @param operations_data Struct that contains the stacks and operations count.
 /// @return Nothing
 /// @see ft_show_push_swap_op
 /// @authors jgilaber & aliao-tr
@@ -72,7 +72,7 @@ void	pb(t_push_swap_ops_data *operations_data)
 
 /// @brief Function that show the recived operation in base show_op param
 /// @param push_swap_operation The name of the push_swap operation
-/// @param show_op Boolean that indicates if the operation has to be showed/should be printed.
+/// @param show_op Indicates if the operation should be printed.
 /// @return Nothing
 /// @see ft_putendl_fd
 /// @authors jgilaber & aliao-tr

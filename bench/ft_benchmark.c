@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_benchmark.c                                         :+:      :+:    :+:   */
+/*   ft_benchmark.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aliao-tr <aliao-tr@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/11 22:43:25 by jgilaber          #+#    #+#             */
-/*   Updated: 2026/07/31 11:42:52 by aliao-tr         ###   ########.fr       */
+/*   Updated: 2026/08/20 11:25:02 by aliao-tr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,31 +69,13 @@ static void	ft_show_strategy(t_stack *stack)
 /// @authors jgilaber & aliao-tr
 static void	ft_show_total_operations_count(int *ops_count)
 {
-	ft_putstr_fd("[bench] total_ops: ", STDERR_FILENO);
-	ft_putendl_fd(ft_itoa(ops_count[OP_TOTAL]), STDERR_FILENO);
-	ft_putstr_fd("[bench] sa: ", STDERR_FILENO);
-	ft_putnbr_fd(ops_count[OP_SA], STDERR_FILENO);
-	ft_putstr_fd("  sb: ", STDERR_FILENO);
-	ft_putnbr_fd(ops_count[OP_SB], STDERR_FILENO);
-	ft_putstr_fd("  ss: ", STDERR_FILENO);
-	ft_putnbr_fd(ops_count[OP_SS], STDERR_FILENO);
-	ft_putstr_fd("  pa: ", STDERR_FILENO);
-	ft_putnbr_fd(ops_count[OP_PA], STDERR_FILENO);
-	ft_putstr_fd("  pb: ", STDERR_FILENO);
-	ft_putnbr_fd(ops_count[OP_PB], STDERR_FILENO);
-	write(STDERR_FILENO, "\n", 2);
-	ft_putstr_fd("[bench] ra: ", STDERR_FILENO);
-	ft_putnbr_fd(ops_count[OP_RA], STDERR_FILENO);
-	ft_putstr_fd("  rb: ", STDERR_FILENO);
-	ft_putnbr_fd(ops_count[OP_RB], STDERR_FILENO);
-	ft_putstr_fd("  rr: ", STDERR_FILENO);
-	ft_putnbr_fd(ops_count[OP_RR], STDERR_FILENO);
-	ft_putstr_fd("  rra: ", STDERR_FILENO);
-	ft_putnbr_fd(ops_count[OP_RRA], STDERR_FILENO);
-	ft_putstr_fd("  rrb: ", STDERR_FILENO);
-	ft_putnbr_fd(ops_count[OP_RRB], STDERR_FILENO);
-	ft_putstr_fd("  rrr: ", STDERR_FILENO);
-	ft_putnbr_fd(ops_count[OP_RRR], STDERR_FILENO);
+	ft_printf("[bench] total_ops: %d\n", ops_count[OP_TOTAL]);
+	ft_printf("[bench] sa: %d", ops_count[OP_SA]);
+	ft_printf("  sb: %d  ss: %d", ops_count[OP_SB], ops_count[OP_SS]);
+	ft_printf("  pa: %d  pb: %d\n", ops_count[OP_PA], ops_count[OP_PB]);
+	ft_printf("[bench] ra: %d  rb: %d", ops_count[OP_RA], ops_count[OP_RB]);
+	ft_printf("  rr: %d  rra: %d", ops_count[OP_RR], ops_count[OP_RRA]);
+	ft_printf("  rrb: %d  rrr: %d\n", ops_count[OP_RRB], ops_count[OP_RRR]);
 }
 
 /// @brief Function that shows on stderr the benchmark.

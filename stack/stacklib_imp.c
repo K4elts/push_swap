@@ -94,7 +94,10 @@ void	ft_stack_clear(t_stack **stack)
 	t_stack_node	*tmp_stack_node;
 
 	if (!stack || !*stack || !(*stack)->top)
+	{
+		free(*stack);
 		return ;
+	}
 	while ((*stack)->top)
 	{
 		tmp_stack_node = (*stack)->top->next;
@@ -102,5 +105,4 @@ void	ft_stack_clear(t_stack **stack)
 		(*stack)->top = tmp_stack_node;
 	}
 	free(*stack);
-	*stack = NULL;
 }

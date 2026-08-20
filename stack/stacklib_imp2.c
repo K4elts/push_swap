@@ -18,45 +18,46 @@
 /// @param max_value The value for which to calculate the index.
 /// @return The index of the received value.
 /// @authors jgilaber & aliao-tr
-static int	ft_calc_stack_node_index(int *numbers, size_t numbers_size, int max_value)
+static int	ft_get_stack_node_index(int *nmbrs, size_t nmbrs_size, int max_val)
 {
 	size_t	numbers_index;
 	size_t	stack_node_min_count_index;
 
 	numbers_index = 0;
 	stack_node_min_count_index = 0;
-	while (numbers_index < numbers_size)//while (numbers[numbers_index]) || numbers_index < max_size
+	while (numbers_index < nmbrs_size)
 	{
-		if (numbers[numbers_index] < max_value)
+		if (nmbrs[numbers_index] < max_val)
 			stack_node_min_count_index++;
 		numbers_index++;
 	}
 	return (stack_node_min_count_index);
 }
 
-/// @brief Fills the provided stack with nodes created from the given array of numbers.
+/// @brief Function that fills the provided stack with nodes
+/// created from the given array of numbers.
 /// @param stack Pointer to the first stack.
 /// @param nmbrs Array of numbers to fill the stack with.
 /// @param nmbrs_size Size of the numbers array.
-/// @return Returns 1 on success, 0 on failure (e.g., memory allocation failure).
+/// @return Returns 1 on success, 0 on failure (e.g., mem-alloc-fail).
 /// @see ft_calc_stack_node_index & ft_new_stack_node
 /// @authors jgilaber & aliao-tr
-/// El stack a con el formato de una lista de enteros (el primer argumento debe ser el que esté encima del stack).
-int ft_fill_stack(t_stack **stack, int *nmbrs, size_t nmbrs_size)
+int	ft_fill_stack(t_stack **stack, int *nmbrs, size_t nmbrs_size)
 {
+	int				index;
 	size_t			stack_size;
 	t_stack_node	*temp_stack;
-	int				index;
 
-	stack_size = 0;
-	while (stack_size < nmbrs_size)
+	stack_size = nmbrs_size;
+	while (stack_size > 0)
 	{
-		index = ft_calc_stack_node_index(nmbrs, nmbrs_size, nmbrs[stack_size]);
-		temp_stack = ft_new_stack_node(nmbrs[stack_size], index);
+		index = ft_get_stack_node_index(
+				nmbrs, nmbrs_size, nmbrs[stack_size - 1]);
+		temp_stack = ft_new_stack_node(nmbrs[stack_size - 1], index);
 		if (!temp_stack)
 			return (0);
 		ft_stack_push(stack, temp_stack);
-		stack_size++;
+		stack_size--;
 	}
 	(*stack)->size = nmbrs_size;
 	return (1);
@@ -66,7 +67,7 @@ int ft_fill_stack(t_stack **stack, int *nmbrs, size_t nmbrs_size)
 /// @param stack The stack to get the lowest number from.
 /// @return min - The lowest number on the stack
 /// @authors jgilaber & aliao-tr
-/// SUJETO A REVISION POR ANDRES.
+/// SUJETO A REVISION DE COMENTARIOS POR ANDRES.
 size_t	ft_get_min_stack_node_index(t_stack **stack)
 {
 	size_t			min_stack_node_index;
@@ -90,11 +91,11 @@ size_t	ft_get_min_stack_node_index(t_stack **stack)
 /// @param min_stack_node_index Lowest number on the stack
 /// @return Position of the min_stack_node_index number on the stack
 /// @authors jgilaber & aliao-tr
-/// SUJETO A REVISION POR ANDRES.
-size_t	ft_get_min_stack_node_pos(t_stack **stack, size_t min_stack_node_index)
+/// SUJETO A REVISION DE COMENTARIOS POR ANDRES.
+int	ft_get_min_stack_node_pos(t_stack **stack, size_t min_stack_node_index)
 {
 	t_stack_node	*temp_stack;
-	size_t			pos;
+	int				pos;
 
 	if (!stack || !(*stack)->top)
 		return (-1);
@@ -116,10 +117,10 @@ size_t	ft_get_min_stack_node_pos(t_stack **stack, size_t min_stack_node_index)
 /// @authors jgilaber & aliao-tr
 size_t	ft_get_max_stack_node_pos(t_stack *stack)
 {
-	size_t pos;
-	size_t max;
-	size_t max_pos;
-	t_stack_node *tmp;
+	size_t			pos;
+	size_t			max;
+	size_t			max_pos;
+	t_stack_node	*tmp;
 
 	tmp = stack->top;
 	pos = 0;

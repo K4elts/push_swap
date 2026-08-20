@@ -10,6 +10,12 @@ CINCLUDES		:= -I ./lib
 CMD_RM_FLAGS	:= rm -rf
 CMD_AR_FLAGS	:= ar rcs
 
+
+all: $(LIB_EXE_NAME)
+
+$(LIB_EXE_NAME): ft_push_swap.c $(LIB_NAME)
+	@$(CC) $(CFLAGS) ft_push_swap.c $(LIB_NAME) -o $(LIB_EXE_NAME)
+
 $(LIB_OBJS_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@echo "Compiling -> $< ..."
@@ -21,7 +27,6 @@ $(LIB_NAME): $(LIB_OBJS_FILES)
 	@echo "$(CC) ./ft_push_swap.c $(LIB_NAME) -o $(LIB_EXE_NAME)"
 	@echo ""
 
-all: $(LIB_NAME)
 
 clean:
 	@echo "Cleaning ..."
